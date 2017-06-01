@@ -1,5 +1,7 @@
-module Message exposing (Msg)
+module Message exposing (Msg(..))
+
+import Material
 
 
 type Msg
-    = NoOp
+    = Mdl (Material.Msg Msg)
