@@ -5,3 +5,4 @@ import Material
 
 type Msg
     = Mdl (Material.Msg Msg)
+    | ToggleShoppingListItem Int

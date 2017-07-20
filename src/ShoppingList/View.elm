@@ -1,7 +1,9 @@
 module ShoppingList.View exposing (view)
 
 import Html exposing (..)
-import Message exposing (Msg)
+import Html.Events exposing (onClick)
+import Html.Attributes exposing (style)
+import Message exposing (Msg(..))
 import ShoppingList.Model exposing (Model, ShoppingListItem)
 
 
@@ -19,6 +21,9 @@ listItems items =
 
 listItem : ShoppingListItem -> Html Msg
 listItem item =
-    li []
-        [ text item.name
-        ]
+    let
+      textDecoration = if item.bought then "line-through" else "initial"
+    in
+      li [ onClick (ToggleShoppingListItem item.id), style [("text-decoration", textDecoration)] ]
+          [ text item.name
+          ]
