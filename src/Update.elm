@@ -4,7 +4,7 @@ import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
 import Material
 import ShoppingList.Update as SUpdate exposing (update)
-import ItemInput.Update as IUpdate exposing (update)
+import ItemInput.Update as IUpdate exposing (update, clearInput)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -19,7 +19,10 @@ update msg model =
           ( { model | itemInput = IUpdate.update model.itemInput value }, Cmd.none )
 
         AddItem ->
-          ( { model | shoppingList = SUpdate.addItem model.shoppingList model.itemInput.value }, Cmd.none )
+          ( { model |
+              shoppingList = SUpdate.addItem model.shoppingList model.itemInput.value
+            , itemInput = IUpdate.clearInput model.itemInput
+            }, Cmd.none )
 
         EditMode ->
           ( { model | currentPage = EditListPage }, Cmd.none )
