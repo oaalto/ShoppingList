@@ -9,9 +9,11 @@ type alias ShoppingListItem =
 
 
 type alias Model =
-    { items : List ShoppingListItem }
+    { items : List ShoppingListItem
+    , idCount : Int
+    }
 
 
 init : Model
 init =
-    Model [ { name = "Test", bought = False, id = 1 } ]
+    Model [ { name = "Test", bought = False, id = 1 } ] 0
