@@ -1,10 +1,11 @@
 module Update exposing (update)
 
 import Model exposing (Model, Page(..))
+import ItemInput.Model exposing (HistoryItem)
 import Message exposing (Msg(..))
 import Material
 import ShoppingList.Update as SUpdate exposing (update)
-import ItemInput.Update as IUpdate exposing (update, clearInput)
+import ItemInput.Update as IUpdate exposing (update, clearInput, toggleSelected)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -29,3 +30,22 @@ update msg model =
 
         ListMode ->
           ( { model | currentPage = ShoppingListPage }, Cmd.none )
+
+        AddHistoryItem id ->
+          let
+            historyItem = findHistoryItem id model.itemInput.history
+          in
+            case historyItem of
+              Just item ->
+                ( { model |
+                  shoppingList = SUpdate.addItem model.shoppingList item.name
+                , itemInput = IUpdate.toggleSelected model.itemInput id
+                }, Cmd.none )
+
+              Nothing ->
+                ( model, Cmd.none )
+
+findHistoryItem : Int -> List HistoryItem -> Maybe HistoryItem
+findHistoryItem id history =
+  List.filter (\item -> item.id == id) history
+    |> List.head

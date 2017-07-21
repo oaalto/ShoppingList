@@ -10,3 +10,4 @@ type Msg
     | AddItem
     | EditMode
     | ListMode
+    | AddHistoryItem Int
