@@ -16,4 +16,4 @@ type alias Model =
 
 init : Model
 init =
-    Model [ { name = "Test", bought = False, id = 1 } ] 0
+    Model [] 0
