@@ -38,10 +38,18 @@ listItem item =
             else
                 "initial"
     in
-        Lists.li [ Options.onClick (AddHistoryItem item.id), Options.css "text-decoration" textDecoration ]
+        Lists.li [ Options.onClick (historyItemMsg item), Options.css "text-decoration" textDecoration ]
             [ Lists.content []
                 [ text item.name ]
             ]
+
+
+historyItemMsg : HistoryItem -> Msg
+historyItemMsg item =
+    if item.selected then
+        RemoveHistoryItem item.id
+    else
+        AddHistoryItem item.id
 
 
 viewTextfield : Model -> Material.Model -> Html Msg

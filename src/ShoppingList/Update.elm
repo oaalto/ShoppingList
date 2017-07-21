@@ -1,4 +1,4 @@
-module ShoppingList.Update exposing (update, addItem)
+module ShoppingList.Update exposing (update, addItem, removeItem)
 
 import ShoppingList.Model exposing (Model, ShoppingListItem)
 
@@ -15,6 +15,11 @@ addItem model value =
             model.idCount + 1
     in
         { model | items = (ShoppingListItem value False id) :: model.items, idCount = id }
+
+
+removeItem : Model -> Int -> Model
+removeItem model id =
+    { model | items = List.filter (\item -> item.id /= id) model.items }
 
 
 updateShoppingList : Model -> Int -> List ShoppingListItem

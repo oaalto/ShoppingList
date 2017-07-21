@@ -11,3 +11,4 @@ type Msg
     | EditMode
     | ListMode
     | AddHistoryItem Int
+    | RemoveHistoryItem Int

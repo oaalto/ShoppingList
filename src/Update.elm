@@ -51,6 +51,23 @@ update msg model =
                     Nothing ->
                         ( model, Cmd.none )
 
+        RemoveHistoryItem id ->
+            let
+                historyItem =
+                    findHistoryItem id model.itemInput.history
+            in
+                case historyItem of
+                    Just item ->
+                        ( { model
+                            | shoppingList = SUpdate.removeItem model.shoppingList item.id
+                            , itemInput = IUpdate.toggleSelected model.itemInput id
+                          }
+                        , Cmd.none
+                        )
+
+                    Nothing ->
+                        ( model, Cmd.none )
+
 
 findHistoryItem : Int -> List HistoryItem -> Maybe HistoryItem
 findHistoryItem id history =
