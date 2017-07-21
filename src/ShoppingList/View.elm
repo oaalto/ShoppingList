@@ -5,6 +5,7 @@ import Message exposing (Msg(..))
 import ShoppingList.Model exposing (Model, ShoppingListItem)
 import Material.List as Lists
 import Material.Options as Options
+import Utils exposing (compareNamesIgnoreCase)
 
 
 view : Model -> Html Msg
@@ -16,7 +17,9 @@ view model =
 
 listItems : List ShoppingListItem -> List (Html Msg)
 listItems items =
-    List.map listItem items
+    items
+        |> List.sortWith compareNamesIgnoreCase
+        |> List.map listItem
 
 
 listItem : ShoppingListItem -> Html Msg

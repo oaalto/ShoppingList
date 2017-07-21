@@ -8,6 +8,7 @@ import Material.Textfield as Textfield
 import Material.Options as Options
 import Material.Button as Button
 import Material.List as Lists
+import Utils exposing (compareNamesIgnoreCase)
 
 
 renderHeader : Model -> Material.Model -> Html Msg
@@ -26,7 +27,9 @@ renderBody model mdl =
 
 listItems : List HistoryItem -> List (Html Msg)
 listItems items =
-    List.map listItem items
+    items
+        |> List.sortWith compareNamesIgnoreCase
+        |> List.map listItem
 
 
 listItem : HistoryItem -> Html Msg

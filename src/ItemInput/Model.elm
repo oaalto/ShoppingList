@@ -17,6 +17,6 @@ type alias Model =
 init : Model
 init =
     Model ""
-        [ HistoryItem "Kahvi" 1 False
-        , HistoryItem "Tee" 2 False
+        [ HistoryItem "Tee" 1 False
+        , HistoryItem "Kahvi" 2 False
         ]
