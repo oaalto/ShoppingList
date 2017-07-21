@@ -13,6 +13,7 @@ view model mdl =
   div []
     [ viewTextfield model mdl
     , viewAddButton mdl
+    , renderDoneButton mdl
     ]
 
 viewTextfield : Model -> Material.Model -> Html Msg
@@ -31,3 +32,13 @@ viewAddButton mdl =
     , Options.onClick AddItem
     ]
     [ text "Add" ]
+
+renderDoneButton : Material.Model -> Html Msg
+renderDoneButton mdl =
+  Button.render Mdl [0] mdl
+    [ Button.raised
+    , Button.colored
+    , Button.ripple
+    , Options.onClick ListMode
+    ]
+    [ text "Done"]

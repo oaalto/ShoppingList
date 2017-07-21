@@ -1,6 +1,6 @@
 module Update exposing (update)
 
-import Model exposing (Model)
+import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
 import Material
 import ShoppingList.Update as SUpdate exposing (update)
@@ -20,3 +20,9 @@ update msg model =
 
         AddItem ->
           ( { model | shoppingList = SUpdate.addItem model.shoppingList model.itemInput.value }, Cmd.none )
+
+        EditMode ->
+          ( { model | currentPage = EditListPage }, Cmd.none )
+
+        ListMode ->
+          ( { model | currentPage = ShoppingListPage }, Cmd.none )

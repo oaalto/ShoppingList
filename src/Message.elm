@@ -8,3 +8,5 @@ type Msg
     | ToggleShoppingListItem Int
     | UpdateItemInput String
     | AddItem
+    | EditMode
+    | ListMode
