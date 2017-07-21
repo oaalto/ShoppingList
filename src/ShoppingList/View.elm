@@ -6,6 +6,7 @@ import ShoppingList.Model exposing (Model, ShoppingListItem)
 import Material.List as Lists
 import Material.Options as Options
 
+
 view : Model -> Html Msg
 view model =
     div []
@@ -21,10 +22,13 @@ listItems items =
 listItem : ShoppingListItem -> Html Msg
 listItem item =
     let
-      textDecoration = if item.bought then "line-through" else "initial"
+        textDecoration =
+            if item.bought then
+                "line-through"
+            else
+                "initial"
     in
-      Lists.li [ Options.onClick (ToggleShoppingListItem item.id), Options.css "text-decoration" textDecoration ]
-        [ Lists.content []
-          [ text item.name ]
-        ]
-
+        Lists.li [ Options.onClick (ToggleShoppingListItem item.id), Options.css "text-decoration" textDecoration ]
+            [ Lists.content []
+                [ text item.name ]
+            ]

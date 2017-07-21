@@ -7,6 +7,7 @@ import Material
 import ShoppingList.Update as SUpdate exposing (update)
 import ItemInput.Update as IUpdate exposing (update, clearInput, toggleSelected)
 
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -14,38 +15,44 @@ update msg model =
             Material.update Mdl msg_ model
 
         ToggleShoppingListItem id ->
-          ( { model | shoppingList = SUpdate.update model.shoppingList id }, Cmd.none )
+            ( { model | shoppingList = SUpdate.update model.shoppingList id }, Cmd.none )
 
         UpdateItemInput value ->
-          ( { model | itemInput = IUpdate.update model.itemInput value }, Cmd.none )
+            ( { model | itemInput = IUpdate.update model.itemInput value }, Cmd.none )
 
         AddItem ->
-          ( { model |
-              shoppingList = SUpdate.addItem model.shoppingList model.itemInput.value
-            , itemInput = IUpdate.clearInput model.itemInput
-            }, Cmd.none )
+            ( { model
+                | shoppingList = SUpdate.addItem model.shoppingList model.itemInput.value
+                , itemInput = IUpdate.clearInput model.itemInput
+              }
+            , Cmd.none
+            )
 
         EditMode ->
-          ( { model | currentPage = EditListPage }, Cmd.none )
+            ( { model | currentPage = EditListPage }, Cmd.none )
 
         ListMode ->
-          ( { model | currentPage = ShoppingListPage }, Cmd.none )
+            ( { model | currentPage = ShoppingListPage }, Cmd.none )
 
         AddHistoryItem id ->
-          let
-            historyItem = findHistoryItem id model.itemInput.history
-          in
-            case historyItem of
-              Just item ->
-                ( { model |
-                  shoppingList = SUpdate.addItem model.shoppingList item.name
-                , itemInput = IUpdate.toggleSelected model.itemInput id
-                }, Cmd.none )
+            let
+                historyItem =
+                    findHistoryItem id model.itemInput.history
+            in
+                case historyItem of
+                    Just item ->
+                        ( { model
+                            | shoppingList = SUpdate.addItem model.shoppingList item.name
+                            , itemInput = IUpdate.toggleSelected model.itemInput id
+                          }
+                        , Cmd.none
+                        )
 
-              Nothing ->
-                ( model, Cmd.none )
+                    Nothing ->
+                        ( model, Cmd.none )
+
 
 findHistoryItem : Int -> List HistoryItem -> Maybe HistoryItem
 findHistoryItem id history =
-  List.filter (\item -> item.id == id) history
-    |> List.head
+    List.filter (\item -> item.id == id) history
+        |> List.head
