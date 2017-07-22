@@ -15,7 +15,7 @@ renderHeader : Model -> Material.Model -> Html Msg
 renderHeader model mdl =
     div []
         [ viewTextfield model mdl
-        , viewAddButton mdl
+        , viewAddButton model mdl
         , renderDoneButton mdl
         ]
 
@@ -66,16 +66,26 @@ viewTextfield model mdl =
         []
 
 
-viewAddButton : Material.Model -> Html Msg
-viewAddButton mdl =
-    Button.render Mdl
-        [ 0 ]
-        mdl
-        [ Button.raised
-        , Button.ripple
-        , Options.onClick AddItem
-        ]
-        [ text "Add" ]
+viewAddButton : Model -> Material.Model -> Html Msg
+viewAddButton model mdl =
+    let
+        baseOptions =
+            [ Button.raised
+            , Button.ripple
+            , Options.onClick AddItem
+            ]
+
+        options =
+            if String.isEmpty model.value then
+                Button.disabled :: baseOptions
+            else
+                baseOptions
+    in
+        Button.render Mdl
+            [ 0 ]
+            mdl
+            options
+            [ text "Add" ]
 
 
 renderDoneButton : Material.Model -> Html Msg
