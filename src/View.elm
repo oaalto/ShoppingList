@@ -10,6 +10,7 @@ import Material.Layout as Layout
 import Material.Scheme
 import Material.Button as Button
 import Material.Options as Options
+import MdlIds exposing (Id(..), toInt)
 
 
 view : Model -> Html Msg
@@ -58,7 +59,7 @@ viewBody model =
 renderEditButton : Material.Model -> Html Msg
 renderEditButton mdl =
     Button.render Mdl
-        [ 0 ]
+        [ toInt EditButton ]
         mdl
         [ Button.raised
         , Button.colored

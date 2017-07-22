@@ -10,6 +10,7 @@ import Material.Button as Button
 import Material.List as Lists
 import Utils exposing (compareNamesIgnoreCase)
 import History.HistoryItem exposing (HistoryItem)
+import MdlIds exposing (Id(..), toInt)
 
 
 renderHeader : Model -> Material.Model -> Html Msg
@@ -59,7 +60,7 @@ historyItemMsg item =
 viewTextfield : Model -> Material.Model -> Html Msg
 viewTextfield model mdl =
     Textfield.render Mdl
-        [ 0 ]
+        [ toInt ItemField ]
         mdl
         [ Textfield.value model.value
         , Options.onInput UpdateItemInput
@@ -83,7 +84,7 @@ viewAddButton model mdl =
                 baseOptions
     in
         Button.render Mdl
-            [ 0 ]
+            [ toInt AddButton ]
             mdl
             options
             [ text "Add" ]
@@ -92,7 +93,7 @@ viewAddButton model mdl =
 renderDoneButton : Material.Model -> Html Msg
 renderDoneButton mdl =
     Button.render Mdl
-        [ 0 ]
+        [ toInt DoneButton ]
         mdl
         [ Button.raised
         , Button.colored
