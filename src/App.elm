@@ -5,6 +5,8 @@ import View exposing (view)
 import Model exposing (Model, init)
 import Update exposing (update)
 import Message exposing (Msg)
+import Material
+import Message exposing (Msg(..))
 
 
 main : Program Never Model Msg
@@ -13,5 +15,5 @@ main =
         { view = view
         , init = init
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = Material.subscriptions Mdl
         }

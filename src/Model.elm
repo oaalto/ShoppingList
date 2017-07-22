@@ -1,6 +1,6 @@
 module Model exposing (Model, Page(..), init)
 
-import Message exposing (Msg)
+import Message exposing (Msg(..))
 import ShoppingList.Model as SList exposing (Model, init)
 import ItemInput.Model as IModel exposing (Model, init)
 import Material
@@ -22,5 +22,5 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model ShoppingListPage SList.init Material.model IModel.init
-    , Cmd.none
+    , Material.init Mdl
     )
