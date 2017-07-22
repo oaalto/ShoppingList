@@ -8,13 +8,9 @@ update model id =
     { model | items = updateShoppingList model id }
 
 
-addItem : Model -> String -> Model
-addItem model value =
-    let
-        id =
-            model.idCount + 1
-    in
-        { model | items = (ShoppingListItem value False id) :: model.items, idCount = id }
+addItem : Model -> String -> Int -> Model
+addItem model value id =
+    { model | items = (ShoppingListItem value False id) :: model.items }
 
 
 removeItem : Model -> Int -> Model

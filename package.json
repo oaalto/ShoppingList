@@ -1,0 +1,22 @@
+{
+  "name": "shopping-list",
+  "version": "1.0.0",
+  "description": "A Shopping List application written in Elm",
+  "dependencies": {
+    "elm-localstorage-ports": "0.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oaalto/ShoppingList.git"
+  },
+  "author": "Olli Aalto <oaalto@gmail.com>",
+  "license": "BSD3",
+  "bugs": {
+    "url": "https://github.com/oaalto/ShoppingList/issues"
+  },
+  "homepage": "https://github.com/oaalto/ShoppingList#readme"
+}

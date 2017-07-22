@@ -1,6 +1,7 @@
 module Message exposing (Msg(..))
 
 import Material
+import Ports.LocalStorage as LocalStorage
 
 
 type Msg
@@ -12,3 +13,5 @@ type Msg
     | ListMode
     | AddHistoryItem Int
     | RemoveHistoryItem Int
+    | LoadFromStorage
+    | ReceiveFromLocalStorage ( LocalStorage.Key, LocalStorage.Value )

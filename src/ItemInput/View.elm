@@ -1,6 +1,6 @@
 module ItemInput.View exposing (renderHeader, renderBody)
 
-import ItemInput.Model exposing (Model, HistoryItem)
+import ItemInput.Model exposing (Model)
 import Html exposing (Html, div, text)
 import Message exposing (Msg(..))
 import Material
@@ -9,6 +9,7 @@ import Material.Options as Options
 import Material.Button as Button
 import Material.List as Lists
 import Utils exposing (compareNamesIgnoreCase)
+import History.HistoryItem exposing (HistoryItem)
 
 
 renderHeader : Model -> Material.Model -> Html Msg

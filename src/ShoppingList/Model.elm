@@ -10,10 +10,9 @@ type alias ShoppingListItem =
 
 type alias Model =
     { items : List ShoppingListItem
-    , idCount : Int
     }
 
 
 init : Model
 init =
-    Model [] 0
+    Model []

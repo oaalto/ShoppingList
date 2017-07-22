@@ -1,11 +1,6 @@
-module ItemInput.Model exposing (Model, HistoryItem, init)
+module ItemInput.Model exposing (Model, init)
 
-
-type alias HistoryItem =
-    { name : String
-    , id : Int
-    , selected : Bool
-    }
+import History.HistoryItem exposing (HistoryItem)
 
 
 type alias Model =
@@ -17,6 +12,4 @@ type alias Model =
 init : Model
 init =
     Model ""
-        [ HistoryItem "Tee" -1 False
-        , HistoryItem "Kahvi" 0 False
-        ]
+        []

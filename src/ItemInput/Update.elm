@@ -1,16 +1,12 @@
-module ItemInput.Update exposing (update, clearInput, toggleSelected)
+module ItemInput.Update exposing (update, toggleSelected)
 
-import ItemInput.Model exposing (Model, HistoryItem)
+import ItemInput.Model exposing (Model)
+import History.HistoryItem exposing (HistoryItem)
 
 
 update : Model -> String -> Model
 update model value =
     { model | value = value }
-
-
-clearInput : Model -> Model
-clearInput model =
-    { model | value = "" }
 
 
 toggleSelected : Model -> Int -> Model

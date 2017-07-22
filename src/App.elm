@@ -7,6 +7,15 @@ import Update exposing (update)
 import Message exposing (Msg)
 import Material
 import Message exposing (Msg(..))
+import Ports.LocalStorage as LocalStorage
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ Material.subscriptions Mdl model
+        , LocalStorage.storageGetItemResponse ReceiveFromLocalStorage
+        ]
 
 
 main : Program Never Model Msg
@@ -15,5 +24,5 @@ main =
         { view = view
         , init = init
         , update = update
-        , subscriptions = Material.subscriptions Mdl
+        , subscriptions = subscriptions
         }

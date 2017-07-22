@@ -1,6 +1,9 @@
 import './main.css'
-const Elm = require('./App.elm')
+import localStoragePorts from "elm-localstorage-ports"
+import Elm from './App.elm'
 
 const root = document.getElementById('root')
 
-Elm.App.embed(root)
+const app = Elm.App.embed(root)
+
+localStoragePorts.register(app.ports);
