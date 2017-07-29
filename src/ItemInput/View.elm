@@ -26,14 +26,20 @@ renderHeader model mdl items =
 
 renderBody : Model -> Material.Model -> List ShoppingListItem -> Html Msg
 renderBody model mdl shoppingListItems =
-    Lists.ul [] (listItems model.history shoppingListItems)
+    Lists.ul [] (listItems model shoppingListItems)
 
 
-listItems : List HistoryItem -> List ShoppingListItem -> List (Html Msg)
-listItems items shoppingListItems =
-    items
+listItems : Model -> List ShoppingListItem -> List (Html Msg)
+listItems model shoppingListItems =
+    model.history
+        |> List.filter (filterItems model.value)
         |> List.sortWith compareNamesIgnoreCase
         |> List.map (listItem shoppingListItems)
+
+
+filterItems : String -> HistoryItem -> Bool
+filterItems value item =
+    String.contains value item.name
 
 
 listItem : List ShoppingListItem -> HistoryItem -> Html Msg
