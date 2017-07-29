@@ -5,7 +5,7 @@ import ItemInput.Model as IModel
 import ShoppingList.Model as SModel
 import Message exposing (Msg(..))
 import Material
-import ShoppingList.Update as SUpdate exposing (update)
+import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
 import ItemInput.Update as IUpdate exposing (update, toggleSelected)
 import Ports.LocalStorage as LocalStorage
 import History.HistoryJson exposing (encode, decode)
@@ -110,6 +110,12 @@ update msg model =
 
         ReceiveFromLocalStorage ( _, value ) ->
             ( model, Cmd.none )
+
+        RemoveBoughtItems ->
+            ( { model | shoppingList = SUpdate.removeBoughtItems model.shoppingList }, Cmd.none )
+
+        RemoveAllItems ->
+            ( { model | shoppingList = SUpdate.removeAllItems model.shoppingList }, Cmd.none )
 
 
 findHistoryItem : Int -> List HistoryItem -> Maybe HistoryItem

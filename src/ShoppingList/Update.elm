@@ -1,4 +1,4 @@
-module ShoppingList.Update exposing (update, addItem, removeItem)
+module ShoppingList.Update exposing (update, addItem, removeItem, removeAllItems, removeBoughtItems)
 
 import ShoppingList.Model exposing (Model, ShoppingListItem)
 
@@ -29,3 +29,18 @@ updateShoppingListItem id item =
         { item | bought = not item.bought }
     else
         item
+
+
+removeAllItems : Model -> Model
+removeAllItems model =
+    { model | items = [] }
+
+
+removeBoughtItems : Model -> Model
+removeBoughtItems model =
+    { model | items = filterBoughtItems model.items }
+
+
+filterBoughtItems : List ShoppingListItem -> List ShoppingListItem
+filterBoughtItems =
+    List.filter (\item -> not item.bought)

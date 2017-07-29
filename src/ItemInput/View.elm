@@ -1,7 +1,8 @@
 module ItemInput.View exposing (renderHeader, renderBody)
 
 import ItemInput.Model exposing (Model)
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, text, span)
+import Html.Attributes exposing (class)
 import Message exposing (Msg(..))
 import Material
 import Material.Textfield as Textfield
@@ -59,13 +60,15 @@ historyItemMsg item =
 
 viewTextfield : Model -> Material.Model -> Html Msg
 viewTextfield model mdl =
-    Textfield.render Mdl
-        [ toInt ItemField ]
-        mdl
-        [ Textfield.value model.value
-        , Options.onInput UpdateItemInput
+    span [ class "input-textfield" ]
+        [ Textfield.render Mdl
+            [ toInt ItemField ]
+            mdl
+            [ Textfield.value model.value
+            , Options.onInput UpdateItemInput
+            ]
+            []
         ]
-        []
 
 
 viewAddButton : Model -> Material.Model -> Html Msg
@@ -83,21 +86,26 @@ viewAddButton model mdl =
             else
                 baseOptions
     in
-        Button.render Mdl
-            [ toInt AddButton ]
-            mdl
-            options
-            [ text "Add" ]
+        span [ class "add-item-button" ]
+            [ Button.render Mdl
+                [ toInt AddButton ]
+                mdl
+                options
+                [ text "Add" ]
+            ]
 
 
 renderDoneButton : Material.Model -> Html Msg
 renderDoneButton mdl =
-    Button.render Mdl
-        [ toInt DoneButton ]
-        mdl
-        [ Button.raised
-        , Button.colored
-        , Button.ripple
-        , Options.onClick ListMode
+    span [ class "done-button" ]
+        [ Button.render Mdl
+            [ toInt DoneButton ]
+            mdl
+            [ Button.raised
+            , Button.colored
+            , Button.ripple
+            , Options.onClick ListMode
+            , Options.cs "done-button"
+            ]
+            [ text "Done" ]
         ]
-        [ text "Done" ]

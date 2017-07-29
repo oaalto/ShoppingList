@@ -6,6 +6,7 @@ type Id
     | AddButton
     | DoneButton
     | ItemField
+    | SettingsButton
 
 
 toInt : Id -> Int
@@ -22,3 +23,6 @@ toInt id =
 
         ItemField ->
             3
+
+        SettingsButton ->
+            4

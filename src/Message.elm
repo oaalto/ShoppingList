@@ -15,3 +15,5 @@ type Msg
     | RemoveHistoryItem Int
     | LoadFromStorage
     | ReceiveFromLocalStorage ( LocalStorage.Key, LocalStorage.Value )
+    | RemoveBoughtItems
+    | RemoveAllItems

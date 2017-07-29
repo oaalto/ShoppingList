@@ -1,6 +1,7 @@
 module View exposing (view)
 
-import Html exposing (Html, text, div, img, h2)
+import Html exposing (Html, text, div, img, h2, span)
+import Html.Attributes exposing (class)
 import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
 import ShoppingList.View as SList exposing (view)
@@ -10,6 +11,8 @@ import Material.Layout as Layout
 import Material.Scheme
 import Material.Button as Button
 import Material.Options as Options
+import Material.Icon as Icon
+import Material.Menu as Menu
 import MdlIds exposing (Id(..), toInt)
 
 
@@ -44,7 +47,13 @@ viewShoppingListPage model =
             model.mdl
             [ Layout.fixedHeader
             ]
-            { header = [ h2 [] [ text "Shopping List", renderEditButton model.mdl ] ]
+            { header =
+                [ h2 [ class "header" ]
+                    [ text "Shopping List"
+                    , renderEditButton model.mdl
+                    , renderSettingsButton model.mdl
+                    ]
+                ]
             , drawer = []
             , tabs = ( [], [] )
             , main = [ viewBody model ]
@@ -58,12 +67,31 @@ viewBody model =
 
 renderEditButton : Material.Model -> Html Msg
 renderEditButton mdl =
-    Button.render Mdl
-        [ toInt EditButton ]
-        mdl
-        [ Button.raised
-        , Button.colored
-        , Button.ripple
-        , Options.onClick EditMode
+    span [ class "edit-button" ]
+        [ Button.render Mdl
+            [ toInt EditButton ]
+            mdl
+            [ Button.fab
+            , Button.colored
+            , Button.ripple
+            , Options.onClick EditMode
+            ]
+            [ Icon.i "add" ]
         ]
-        [ text "Edit" ]
+
+
+renderSettingsButton : Material.Model -> Html Msg
+renderSettingsButton mdl =
+    span [ class "settings-button" ]
+        [ Menu.render Mdl
+            [ toInt SettingsButton ]
+            mdl
+            [ Menu.bottomRight ]
+            [ Menu.item
+                [ Menu.onSelect RemoveBoughtItems ]
+                [ text "Remove Marked" ]
+            , Menu.item
+                [ Menu.onSelect RemoveAllItems ]
+                [ text "Remove All" ]
+            ]
+        ]
