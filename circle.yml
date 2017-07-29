@@ -1,0 +1,15 @@
+machine:
+  node:
+    version: 7.7.x
+
+dependencies:
+  override:
+    - npm install elm create-elm-app
+    - npm install
+
+  cache_directories:
+      - "node_modules"
+
+compile:
+  override:
+    - elm-app build
