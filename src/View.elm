@@ -33,7 +33,7 @@ viewEditListPage model =
             model.mdl
             [ Layout.fixedHeader
             ]
-            { header = [ IView.renderHeader model.itemInput model.mdl ]
+            { header = [ IView.renderHeader model.itemInput model.mdl model.shoppingList.items ]
             , drawer = []
             , tabs = ( [], [] )
             , main = [ IView.renderBody model.itemInput model.mdl ]

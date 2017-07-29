@@ -12,13 +12,14 @@ import Material.List as Lists
 import Utils exposing (compareNamesIgnoreCase)
 import History.HistoryItem exposing (HistoryItem)
 import MdlIds exposing (Id(..), toInt)
+import ShoppingList.Model exposing (ShoppingListItem)
 
 
-renderHeader : Model -> Material.Model -> Html Msg
-renderHeader model mdl =
+renderHeader : Model -> Material.Model -> List ShoppingListItem -> Html Msg
+renderHeader model mdl items =
     div []
         [ viewTextfield model mdl
-        , viewAddButton model mdl
+        , viewAddButton model mdl items
         , renderDoneButton mdl
         ]
 
@@ -71,8 +72,8 @@ viewTextfield model mdl =
         ]
 
 
-viewAddButton : Model -> Material.Model -> Html Msg
-viewAddButton model mdl =
+viewAddButton : Model -> Material.Model -> List ShoppingListItem -> Html Msg
+viewAddButton model mdl items =
     let
         baseOptions =
             [ Button.raised
@@ -81,7 +82,7 @@ viewAddButton model mdl =
             ]
 
         options =
-            if String.isEmpty model.value then
+            if isAddButtonDisabled model.value items then
                 Button.disabled :: baseOptions
             else
                 baseOptions
@@ -93,6 +94,11 @@ viewAddButton model mdl =
                 options
                 [ text "Add" ]
             ]
+
+
+isAddButtonDisabled : String -> List ShoppingListItem -> Bool
+isAddButtonDisabled value items =
+    String.isEmpty value || List.any (\item -> item.name == value) items
 
 
 renderDoneButton : Material.Model -> Html Msg
