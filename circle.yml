@@ -10,3 +10,9 @@ dependencies:
 compile:
   override:
     - elm-app build
+
+deployment:
+  production:
+    branch: master
+    commands:
+    - ./deploy-ghpages.sh build
