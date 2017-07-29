@@ -6,7 +6,7 @@ import ShoppingList.Model as SModel
 import Message exposing (Msg(..))
 import Material
 import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
-import ItemInput.Update as IUpdate exposing (update, toggleSelected)
+import ItemInput.Update as IUpdate exposing (update)
 import Ports.LocalStorage as LocalStorage
 import History.HistoryJson exposing (encode, decode)
 import History.HistoryItem exposing (HistoryItem)
@@ -59,7 +59,6 @@ update msg model =
                     Just item ->
                         ( { model
                             | shoppingList = SUpdate.addItem model.shoppingList item.name item.id
-                            , itemInput = IUpdate.toggleSelected model.itemInput id
                           }
                         , Cmd.none
                         )
@@ -76,7 +75,6 @@ update msg model =
                     Just item ->
                         ( { model
                             | shoppingList = SUpdate.removeItem model.shoppingList item.id
-                            , itemInput = IUpdate.toggleSelected model.itemInput id
                           }
                         , Cmd.none
                         )
@@ -137,7 +135,7 @@ updateHistory sModel iModel =
     in
         case addedItem of
             Just item ->
-                addHistoryItem iModel (HistoryItem iModel.value item.id False)
+                addHistoryItem iModel (HistoryItem iModel.value item.id)
 
             Nothing ->
                 iModel

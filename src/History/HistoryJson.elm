@@ -11,7 +11,6 @@ decodeHistory =
     Pipeline.decode HistoryItem
         |> required "name" (Json.Decode.string)
         |> required "id" (Json.Decode.int)
-        |> optional "selected" (Json.Decode.bool) False
 
 
 encodeHistory : HistoryItem -> Json.Encode.Value
@@ -19,7 +18,6 @@ encodeHistory record =
     Json.Encode.object
         [ ( "name", Json.Encode.string <| record.name )
         , ( "id", Json.Encode.int <| record.id )
-        , ( "selected", Json.Encode.bool <| record.selected )
         ]
 
 

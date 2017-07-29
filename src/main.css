@@ -3,12 +3,14 @@
 }
 
 .settings-button {
+  padding-left: 1em;
   position: absolute;
   right: 1em;
 }
 
 .input-textfield {
   padding-left: 1em;
+  width: auto;
 }
 
 .add-item-button {
@@ -17,6 +19,9 @@
 
 .done-button {
   padding-left: 1em;
+  position: absolute;
+  right: 1em;
+  top: 1em;
 }
 
 .header {

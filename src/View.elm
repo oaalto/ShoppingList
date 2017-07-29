@@ -1,6 +1,6 @@
 module View exposing (view)
 
-import Html exposing (Html, text, div, img, h2, span)
+import Html exposing (Html, text, div, img, h3, span)
 import Html.Attributes exposing (class)
 import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
@@ -36,7 +36,7 @@ viewEditListPage model =
             { header = [ IView.renderHeader model.itemInput model.mdl model.shoppingList.items ]
             , drawer = []
             , tabs = ( [], [] )
-            , main = [ IView.renderBody model.itemInput model.mdl ]
+            , main = [ IView.renderBody model.itemInput model.mdl model.shoppingList.items ]
             }
 
 
@@ -48,7 +48,7 @@ viewShoppingListPage model =
             [ Layout.fixedHeader
             ]
             { header =
-                [ h2 [ class "header" ]
+                [ h3 [ class "header" ]
                     [ text "Shopping List"
                     , renderEditButton model.mdl
                     , renderSettingsButton model.mdl

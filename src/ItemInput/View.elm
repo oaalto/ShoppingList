@@ -24,36 +24,44 @@ renderHeader model mdl items =
         ]
 
 
-renderBody : Model -> Material.Model -> Html Msg
-renderBody model mdl =
-    Lists.ul [] (listItems model.history)
+renderBody : Model -> Material.Model -> List ShoppingListItem -> Html Msg
+renderBody model mdl shoppingListItems =
+    Lists.ul [] (listItems model.history shoppingListItems)
 
 
-listItems : List HistoryItem -> List (Html Msg)
-listItems items =
+listItems : List HistoryItem -> List ShoppingListItem -> List (Html Msg)
+listItems items shoppingListItems =
     items
         |> List.sortWith compareNamesIgnoreCase
-        |> List.map listItem
+        |> List.map (listItem shoppingListItems)
 
 
-listItem : HistoryItem -> Html Msg
-listItem item =
+listItem : List ShoppingListItem -> HistoryItem -> Html Msg
+listItem shoppingListItems item =
     let
         textDecoration =
-            if item.selected then
+            if isSelected item shoppingListItems then
                 "line-through"
             else
                 "initial"
     in
-        Lists.li [ Options.onClick (historyItemMsg item), Options.css "text-decoration" textDecoration ]
+        Lists.li
+            [ Options.onClick (historyItemMsg item shoppingListItems)
+            , Options.css "text-decoration" textDecoration
+            ]
             [ Lists.content []
                 [ text item.name ]
             ]
 
 
-historyItemMsg : HistoryItem -> Msg
-historyItemMsg item =
-    if item.selected then
+isSelected : HistoryItem -> List ShoppingListItem -> Bool
+isSelected historyItem shoppingListItems =
+    List.any (\item -> item.name == historyItem.name) shoppingListItems
+
+
+historyItemMsg : HistoryItem -> List ShoppingListItem -> Msg
+historyItemMsg item shoppingListItems =
+    if isSelected item shoppingListItems then
         RemoveHistoryItem item.id
     else
         AddHistoryItem item.id
@@ -66,6 +74,7 @@ viewTextfield model mdl =
             [ toInt ItemField ]
             mdl
             [ Textfield.value model.value
+            , Textfield.label "Add items"
             , Options.onInput UpdateItemInput
             ]
             []
@@ -111,7 +120,6 @@ renderDoneButton mdl =
             , Button.colored
             , Button.ripple
             , Options.onClick ListMode
-            , Options.cs "done-button"
             ]
             [ text "Done" ]
         ]
