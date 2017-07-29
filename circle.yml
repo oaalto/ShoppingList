@@ -7,9 +7,6 @@ dependencies:
     - npm install elm create-elm-app
     - npm install
 
-  cache_directories:
-      - "node_modules"
-
 compile:
   override:
-    - elm-app build
+    - ./node_modules/bin/elm-app build
