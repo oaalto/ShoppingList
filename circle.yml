@@ -8,6 +8,7 @@ dependencies:
     - npm install
 
 compile:
+  timeout: 6000
   override:
     - elm-app build
 
