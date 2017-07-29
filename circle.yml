@@ -4,9 +4,9 @@ machine:
 
 dependencies:
   override:
-    - npm install elm create-elm-app
+    - npm install elm create-elm-app -g
     - npm install
 
 compile:
   override:
-    - ./node_modules/bin/elm-app build
+    - elm-app build
