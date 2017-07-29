@@ -39,15 +39,15 @@ listItems items shoppingListItems =
 listItem : List ShoppingListItem -> HistoryItem -> Html Msg
 listItem shoppingListItems item =
     let
-        textDecoration =
+        textColor =
             if isSelected item shoppingListItems then
-                "line-through"
+                "gray"
             else
-                "initial"
+                "black"
     in
         Lists.li
             [ Options.onClick (historyItemMsg item shoppingListItems)
-            , Options.css "text-decoration" textDecoration
+            , Options.css "color" textColor
             ]
             [ Lists.content []
                 [ text item.name ]
