@@ -17,12 +17,11 @@ type alias Model =
     , shoppingList : SList.Model
     , mdl : Material.Model
     , itemInput : IModel.Model
-    , idCount : Int
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model ShoppingListPage SList.init Material.model IModel.init 0
+    ( Model ShoppingListPage SList.init Material.model IModel.init
     , Cmd.batch [ Material.init Mdl, LocalStorage.storageGetItem "history" ]
     )

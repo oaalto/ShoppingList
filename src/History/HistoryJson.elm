@@ -10,14 +10,12 @@ decodeHistory : Json.Decode.Decoder HistoryItem
 decodeHistory =
     Pipeline.decode HistoryItem
         |> required "name" (Json.Decode.string)
-        |> required "id" (Json.Decode.int)
 
 
 encodeHistory : HistoryItem -> Json.Encode.Value
 encodeHistory record =
     Json.Encode.object
         [ ( "name", Json.Encode.string <| record.name )
-        , ( "id", Json.Encode.int <| record.id )
         ]
 
 

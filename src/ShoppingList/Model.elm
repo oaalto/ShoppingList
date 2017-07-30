@@ -4,7 +4,6 @@ module ShoppingList.Model exposing (Model, ShoppingListItem, init)
 type alias ShoppingListItem =
     { name : String
     , bought : Bool
-    , id : Int
     }
 
 

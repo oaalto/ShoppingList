@@ -19,26 +19,22 @@ update msg model =
         Mdl msg_ ->
             Material.update Mdl msg_ model
 
-        ToggleShoppingListItem id ->
-            ( { model | shoppingList = SUpdate.update model.shoppingList id }, Cmd.none )
+        ToggleShoppingListItem name ->
+            ( { model | shoppingList = SUpdate.update model.shoppingList name }, Cmd.none )
 
         UpdateItemInput value ->
             ( { model | itemInput = IUpdate.update model.itemInput value }, Cmd.none )
 
         AddItem ->
             let
-                id =
-                    model.idCount + 1
-
                 shoppingList =
-                    SUpdate.addItem model.shoppingList model.itemInput.value id
+                    SUpdate.addItem model.shoppingList model.itemInput.value
 
                 itemInput =
                     updateHistory shoppingList model.itemInput
             in
                 ( { model
                     | shoppingList = shoppingList
-                    , idCount = id
                     , itemInput = { itemInput | value = "" }
                   }
                 , LocalStorage.storageSetItem ( "history", encode itemInput.history )
@@ -50,15 +46,15 @@ update msg model =
         ListMode ->
             ( { model | currentPage = ShoppingListPage }, Cmd.none )
 
-        AddHistoryItem id ->
+        AddHistoryItem name ->
             let
                 historyItem =
-                    findHistoryItem id model.itemInput.history
+                    findHistoryItem name model.itemInput.history
             in
                 case historyItem of
                     Just item ->
                         ( { model
-                            | shoppingList = SUpdate.addItem model.shoppingList item.name item.id
+                            | shoppingList = SUpdate.addItem model.shoppingList item.name
                           }
                         , Cmd.none
                         )
@@ -66,15 +62,15 @@ update msg model =
                     Nothing ->
                         ( model, Cmd.none )
 
-        RemoveHistoryItem id ->
+        RemoveHistoryItem name ->
             let
                 historyItem =
-                    findHistoryItem id model.itemInput.history
+                    findHistoryItem name model.itemInput.history
             in
                 case historyItem of
                     Just item ->
                         ( { model
-                            | shoppingList = SUpdate.removeItem model.shoppingList item.id
+                            | shoppingList = SUpdate.removeItem model.shoppingList item.name
                           }
                         , Cmd.none
                         )
@@ -95,16 +91,11 @@ update msg model =
                         ( model, Cmd.none )
 
                     Ok historyJson ->
-                        let
-                            id =
-                                List.foldl checkId 0 historyJson.history
-                        in
-                            ( { model
-                                | itemInput = loadHistory model.itemInput historyJson.history
-                                , idCount = id
-                              }
-                            , Cmd.none
-                            )
+                        ( { model
+                            | itemInput = loadHistory model.itemInput historyJson.history
+                          }
+                        , Cmd.none
+                        )
 
         ReceiveFromLocalStorage ( _, value ) ->
             ( model, Cmd.none )
@@ -116,9 +107,9 @@ update msg model =
             ( { model | shoppingList = SUpdate.removeAllItems model.shoppingList }, Cmd.none )
 
 
-findHistoryItem : Int -> List HistoryItem -> Maybe HistoryItem
-findHistoryItem id history =
-    List.filter (\item -> item.id == id) history
+findHistoryItem : String -> List HistoryItem -> Maybe HistoryItem
+findHistoryItem name history =
+    List.filter (\item -> item.name == name) history
         |> List.head
 
 
@@ -135,7 +126,7 @@ updateHistory sModel iModel =
     in
         case addedItem of
             Just item ->
-                addHistoryItem iModel (HistoryItem iModel.value item.id)
+                addHistoryItem iModel (HistoryItem iModel.value)
 
             Nothing ->
                 iModel
@@ -144,11 +135,3 @@ updateHistory sModel iModel =
 addHistoryItem : IModel.Model -> HistoryItem -> IModel.Model
 addHistoryItem model historyItem =
     { model | history = historyItem :: model.history }
-
-
-checkId : HistoryItem -> Int -> Int
-checkId item curId =
-    if item.id > curId then
-        item.id
-    else
-        curId

@@ -3,29 +3,29 @@ module ShoppingList.Update exposing (update, addItem, removeItem, removeAllItems
 import ShoppingList.Model exposing (Model, ShoppingListItem)
 
 
-update : Model -> Int -> Model
-update model id =
-    { model | items = updateShoppingList model id }
+update : Model -> String -> Model
+update model name =
+    { model | items = updateShoppingList model name }
 
 
-addItem : Model -> String -> Int -> Model
-addItem model value id =
-    { model | items = (ShoppingListItem value False id) :: model.items }
+addItem : Model -> String -> Model
+addItem model value =
+    { model | items = (ShoppingListItem value False) :: model.items }
 
 
-removeItem : Model -> Int -> Model
-removeItem model id =
-    { model | items = List.filter (\item -> item.id /= id) model.items }
+removeItem : Model -> String -> Model
+removeItem model name =
+    { model | items = List.filter (\item -> item.name /= name) model.items }
 
 
-updateShoppingList : Model -> Int -> List ShoppingListItem
-updateShoppingList model id =
-    List.map (updateShoppingListItem id) model.items
+updateShoppingList : Model -> String -> List ShoppingListItem
+updateShoppingList model name =
+    List.map (updateShoppingListItem name) model.items
 
 
-updateShoppingListItem : Int -> ShoppingListItem -> ShoppingListItem
-updateShoppingListItem id item =
-    if item.id == id then
+updateShoppingListItem : String -> ShoppingListItem -> ShoppingListItem
+updateShoppingListItem name item =
+    if item.name == name then
         { item | bought = not item.bought }
     else
         item

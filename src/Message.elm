@@ -6,13 +6,13 @@ import Ports.LocalStorage as LocalStorage
 
 type Msg
     = Mdl (Material.Msg Msg)
-    | ToggleShoppingListItem Int
+    | ToggleShoppingListItem String
     | UpdateItemInput String
     | AddItem
     | EditMode
     | ListMode
-    | AddHistoryItem Int
-    | RemoveHistoryItem Int
+    | AddHistoryItem String
+    | RemoveHistoryItem String
     | LoadFromStorage
     | ReceiveFromLocalStorage ( LocalStorage.Key, LocalStorage.Value )
     | RemoveBoughtItems

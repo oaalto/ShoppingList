@@ -31,7 +31,7 @@ listItem item =
             else
                 "initial"
     in
-        Lists.li [ Options.onClick (ToggleShoppingListItem item.id), Options.css "text-decoration" textDecoration ]
+        Lists.li [ Options.onClick (ToggleShoppingListItem item.name), Options.css "text-decoration" textDecoration ]
             [ Lists.content []
                 [ text item.name ]
             ]

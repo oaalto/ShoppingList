@@ -68,9 +68,9 @@ isSelected historyItem shoppingListItems =
 historyItemMsg : HistoryItem -> List ShoppingListItem -> Msg
 historyItemMsg item shoppingListItems =
     if isSelected item shoppingListItems then
-        RemoveHistoryItem item.id
+        RemoveHistoryItem item.name
     else
-        AddHistoryItem item.id
+        AddHistoryItem item.name
 
 
 viewTextfield : Model -> Material.Model -> Html Msg
@@ -97,7 +97,6 @@ viewAddButton model mdl =
             [ Button.raised
             , Button.ripple
             , Button.disabled |> Options.when (isAddButtonDisabled model.value model.history)
-            , Options.onClick AddItem
             ]
             [ text "Add" ]
         ]
