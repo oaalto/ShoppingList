@@ -15,11 +15,11 @@ import MdlIds exposing (Id(..), toInt)
 import ShoppingList.Model exposing (ShoppingListItem)
 
 
-renderHeader : Model -> Material.Model -> List ShoppingListItem -> Html Msg
-renderHeader model mdl items =
+renderHeader : Model -> Material.Model -> Html Msg
+renderHeader model mdl =
     div []
         [ viewTextfield model mdl
-        , viewAddButton model mdl items
+        , viewAddButton model mdl
         , renderDoneButton mdl
         ]
 
@@ -87,31 +87,22 @@ viewTextfield model mdl =
         ]
 
 
-viewAddButton : Model -> Material.Model -> List ShoppingListItem -> Html Msg
-viewAddButton model mdl items =
-    let
-        baseOptions =
+viewAddButton : Model -> Material.Model -> Html Msg
+viewAddButton model mdl =
+    span [ class "add-item-button" ]
+        [ Button.render Mdl
+            [ toInt AddButton ]
+            mdl
             [ Button.raised
             , Button.ripple
+            , Button.disabled |> Options.when (isAddButtonDisabled model.value model.history)
             , Options.onClick AddItem
             ]
-
-        options =
-            if isAddButtonDisabled model.value items then
-                Button.disabled :: baseOptions
-            else
-                baseOptions
-    in
-        span [ class "add-item-button" ]
-            [ Button.render Mdl
-                [ toInt AddButton ]
-                mdl
-                options
-                [ text "Add" ]
-            ]
+            [ text "Add" ]
+        ]
 
 
-isAddButtonDisabled : String -> List ShoppingListItem -> Bool
+isAddButtonDisabled : String -> List HistoryItem -> Bool
 isAddButtonDisabled value items =
     String.isEmpty value || List.any (\item -> item.name == value) items
 
