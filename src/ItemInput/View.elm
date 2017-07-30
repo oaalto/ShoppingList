@@ -1,8 +1,9 @@
 module ItemInput.View exposing (renderHeader, renderBody)
 
 import ItemInput.Model exposing (Model)
-import Html exposing (Html, div, text, span)
+import Html exposing (Html, div, text, span, form)
 import Html.Attributes exposing (class)
+import Html.Events exposing (onSubmit)
 import Message exposing (Msg(..))
 import Material
 import Material.Textfield as Textfield
@@ -19,7 +20,6 @@ renderHeader : Model -> Material.Model -> Html Msg
 renderHeader model mdl =
     div []
         [ viewTextfield model mdl
-        , viewAddButton model mdl
         , renderDoneButton mdl
         ]
 
@@ -75,7 +75,7 @@ historyItemMsg item shoppingListItems =
 
 viewTextfield : Model -> Material.Model -> Html Msg
 viewTextfield model mdl =
-    span [ class "input-textfield" ]
+    form [ onSubmit AddItem, class "input-textfield" ]
         [ Textfield.render Mdl
             [ toInt ItemField ]
             mdl
@@ -84,6 +84,7 @@ viewTextfield model mdl =
             , Options.onInput UpdateItemInput
             ]
             []
+        , viewAddButton model mdl
         ]
 
 
