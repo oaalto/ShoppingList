@@ -1,8 +1,8 @@
 module ItemInput.View exposing (renderHeader, renderBody)
 
 import ItemInput.Model exposing (Model)
-import Html exposing (Html, div, text, span, form)
-import Html.Attributes exposing (class)
+import Html exposing (Html, div, text, span, form, h4, p)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onSubmit)
 import Message exposing (Msg(..))
 import Material
@@ -14,13 +14,45 @@ import Utils exposing (compareNamesIgnoreCase)
 import History.HistoryItem exposing (HistoryItem)
 import MdlIds exposing (Id(..), toInt)
 import ShoppingList.Model exposing (ShoppingListItem)
+import Material.Grid exposing (grid, cell, size, align, Device(..), Align(..))
 
 
 renderHeader : Model -> Material.Model -> Html Msg
 renderHeader model mdl =
-    div []
-        [ viewTextfield model mdl
-        , renderDoneButton mdl
+    grid [ Options.css "margin" "0" ]
+        [ cell [ size All 10, size Phone 2 ] [ viewTextfield model mdl ]
+        , cell [ size All 1, align Middle ] [ viewAddButton model mdl ]
+        , cell [ size All 1, align Middle ] [ renderDoneButton mdl ]
+        ]
+
+
+viewTextfield : Model -> Material.Model -> Html Msg
+viewTextfield model mdl =
+    form [ onSubmit AddItem ]
+        [ Textfield.render Mdl
+            [ toInt ItemField ]
+            mdl
+            [ Textfield.value model.value
+            , Textfield.label "Add items"
+            , Options.css "width" "100%"
+            , Options.onInput UpdateItemInput
+            ]
+            []
+        ]
+
+
+viewAddButton : Model -> Material.Model -> Html Msg
+viewAddButton model mdl =
+    span []
+        [ Button.render Mdl
+            [ toInt AddButton ]
+            mdl
+            [ Button.raised
+            , Button.ripple
+            , Button.disabled |> Options.when (isAddButtonDisabled model.value model.history)
+            , Options.onClick AddItem
+            ]
+            [ text "Add" ]
         ]
 
 
@@ -71,35 +103,6 @@ historyItemMsg item shoppingListItems =
         RemoveHistoryItem item.name
     else
         AddHistoryItem item.name
-
-
-viewTextfield : Model -> Material.Model -> Html Msg
-viewTextfield model mdl =
-    form [ onSubmit AddItem, class "input-textfield" ]
-        [ Textfield.render Mdl
-            [ toInt ItemField ]
-            mdl
-            [ Textfield.value model.value
-            , Textfield.label "Add items"
-            , Options.onInput UpdateItemInput
-            ]
-            []
-        , viewAddButton model mdl
-        ]
-
-
-viewAddButton : Model -> Material.Model -> Html Msg
-viewAddButton model mdl =
-    span [ class "add-item-button" ]
-        [ Button.render Mdl
-            [ toInt AddButton ]
-            mdl
-            [ Button.raised
-            , Button.ripple
-            , Button.disabled |> Options.when (isAddButtonDisabled model.value model.history)
-            ]
-            [ text "Add" ]
-        ]
 
 
 isAddButtonDisabled : String -> List HistoryItem -> Bool
