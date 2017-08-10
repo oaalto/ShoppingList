@@ -21,5 +21,5 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     ( Model ShoppingListPage SList.init IModel.init
-    , Cmd.batch [ LocalStorage.storageGetItem "history" ]
+    , Cmd.batch [ LocalStorage.storageGetItem "ShoppingList" ]
     )

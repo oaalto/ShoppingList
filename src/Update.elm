@@ -2,12 +2,13 @@ module Update exposing (update)
 
 import Model exposing (Model, Page(..))
 import ItemInput.Model as IModel
-import ShoppingList.Model as SModel
+import ShoppingList.Model as SModel exposing (ShoppingListItem)
 import Message exposing (Msg(..))
 import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
 import ItemInput.Update as IUpdate exposing (update)
 import Ports.LocalStorage as LocalStorage
-import History.HistoryJson exposing (encode, decode)
+import Json.Decoders.LocalStorageDecoder exposing (decode)
+import Json.Encoders.LocalStorageEncoder exposing (encode)
 import History.HistoryItem exposing (HistoryItem)
 import Json.Decode as Decode
 
@@ -33,7 +34,7 @@ update msg model =
                     | shoppingList = shoppingList
                     , itemInput = { itemInput | value = "" }
                   }
-                , LocalStorage.storageSetItem ( "history", encode itemInput.history )
+                , LocalStorage.storageSetItem ( "ShoppingList", encode itemInput.history shoppingList.items )
                 )
 
         EditMode ->
@@ -49,11 +50,15 @@ update msg model =
             in
                 case historyItem of
                     Just item ->
-                        ( { model
-                            | shoppingList = SUpdate.addItem model.shoppingList item.name
-                          }
-                        , Cmd.none
-                        )
+                        let
+                            shoppingList =
+                                SUpdate.removeItem model.shoppingList item.name
+                        in
+                            ( { model
+                                | shoppingList = shoppingList
+                              }
+                            , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                            )
 
                     Nothing ->
                         ( model, Cmd.none )
@@ -65,30 +70,35 @@ update msg model =
             in
                 case historyItem of
                     Just item ->
-                        ( { model
-                            | shoppingList = SUpdate.removeItem model.shoppingList item.name
-                          }
-                        , Cmd.none
-                        )
+                        let
+                            shoppingList =
+                                SUpdate.removeItem model.shoppingList item.name
+                        in
+                            ( { model
+                                | shoppingList = shoppingList
+                              }
+                            , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                            )
 
                     Nothing ->
                         ( model, Cmd.none )
 
         LoadFromStorage ->
-            ( model, LocalStorage.storageGetItem "history" )
+            ( model, LocalStorage.storageGetItem "ShoppingList" )
 
-        ReceiveFromLocalStorage ( "history", value ) ->
+        ReceiveFromLocalStorage ( "ShoppingList", value ) ->
             let
-                historyResult =
+                localStorageResult =
                     Decode.decodeValue decode value
             in
-                case historyResult of
+                case localStorageResult of
                     Err msg ->
                         ( model, Cmd.none )
 
-                    Ok historyJson ->
+                    Ok localStorageJson ->
                         ( { model
-                            | itemInput = loadHistory model.itemInput historyJson.history
+                            | itemInput = loadHistory model.itemInput localStorageJson.history
+                            , shoppingList = loadShoppingList model.shoppingList localStorageJson.shoppingList
                           }
                         , Cmd.none
                         )
@@ -97,10 +107,22 @@ update msg model =
             ( model, Cmd.none )
 
         RemoveBoughtItems ->
-            ( { model | shoppingList = SUpdate.removeBoughtItems model.shoppingList }, Cmd.none )
+            let
+                shoppingList =
+                    SUpdate.removeBoughtItems model.shoppingList
+            in
+                ( { model | shoppingList = shoppingList }
+                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                )
 
         RemoveAllItems ->
-            ( { model | shoppingList = SUpdate.removeAllItems model.shoppingList }, Cmd.none )
+            let
+                shoppingList =
+                    SUpdate.removeAllItems model.shoppingList
+            in
+                ( { model | shoppingList = shoppingList }
+                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                )
 
 
 findHistoryItem : String -> List HistoryItem -> Maybe HistoryItem
@@ -112,6 +134,11 @@ findHistoryItem name history =
 loadHistory : IModel.Model -> List HistoryItem -> IModel.Model
 loadHistory itemInput history =
     { itemInput | history = history }
+
+
+loadShoppingList : SModel.Model -> List ShoppingListItem -> SModel.Model
+loadShoppingList shoppingListModel shoppingList =
+    { shoppingListModel | items = shoppingList }
 
 
 updateHistory : SModel.Model -> IModel.Model -> IModel.Model

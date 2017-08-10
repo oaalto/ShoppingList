@@ -41,7 +41,7 @@ listItem : ShoppingListItem -> Html Msg
 listItem item =
     let
         textDecoration =
-            if item.bought then
+            if item.marked then
                 "line-through"
             else
                 "initial"

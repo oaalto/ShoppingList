@@ -26,7 +26,7 @@ updateShoppingList model name =
 updateShoppingListItem : String -> ShoppingListItem -> ShoppingListItem
 updateShoppingListItem name item =
     if item.name == name then
-        { item | bought = not item.bought }
+        { item | marked = not item.marked }
     else
         item
 
@@ -43,4 +43,4 @@ removeBoughtItems model =
 
 filterBoughtItems : List ShoppingListItem -> List ShoppingListItem
 filterBoughtItems =
-    List.filter (\item -> not item.bought)
+    List.filter (\item -> not item.marked)

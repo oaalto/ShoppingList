@@ -3,7 +3,7 @@ module ItemInput.View exposing (renderHeader, renderBody)
 import Model exposing (Model)
 import Html exposing (..)
 import Html.Attributes exposing (class, style, type_, placeholder)
-import Html.Events exposing (onSubmit, onClick)
+import Html.Events exposing (onSubmit, onClick, onInput)
 import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
 import History.HistoryItem exposing (HistoryItem)
@@ -13,8 +13,7 @@ import ShoppingList.Model exposing (ShoppingListItem)
 renderHeader : Model -> Html Msg
 renderHeader model =
     div []
-        [ input [ type_ "text", placeholder "Add items here..." ]
-            []
+        [ inputForm
         , button [ onClick ListMode ]
             [ text "Done" ]
         ]
@@ -23,6 +22,14 @@ renderHeader model =
 renderBody : Model -> Html Msg
 renderBody model =
     ul [] (listItems model)
+
+
+inputForm : Html Msg
+inputForm =
+    form [ onSubmit AddItem ]
+        [ input [ type_ "text", placeholder "Add items here...", onInput UpdateItemInput ]
+            []
+        ]
 
 
 listItems : Model -> List (Html Msg)
