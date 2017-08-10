@@ -1,6 +1,6 @@
 module View exposing (view)
 
-import Html exposing (Html, text, div, img, h3, span)
+import Html exposing (Html, text, div, img, h3, span, button, ul, li)
 import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
 import ShoppingList.View as SList exposing (view, renderHeader)
@@ -35,18 +35,7 @@ viewEditListPage model =
 
 viewShoppingListPage : Model -> Html Msg
 viewShoppingListPage model =
-    Material.Scheme.top <|
-        Layout.render Mdl
-            model.mdl
-            [ Layout.fixedHeader
-            ]
-            { header = [ SList.renderHeader model.shoppingList model.mdl ]
-            , drawer = []
-            , tabs = ( [], [] )
-            , main = [ viewBody model ]
-            }
-
-
-viewBody : Model -> Html Msg
-viewBody model =
-    SList.view model.shoppingList
+    div []
+        [ SList.renderHeader model
+        , SList.view model
+        ]
