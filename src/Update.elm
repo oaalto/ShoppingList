@@ -4,7 +4,6 @@ import Model exposing (Model, Page(..))
 import ItemInput.Model as IModel
 import ShoppingList.Model as SModel
 import Message exposing (Msg(..))
-import Material
 import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
 import ItemInput.Update as IUpdate exposing (update)
 import Ports.LocalStorage as LocalStorage
@@ -16,9 +15,6 @@ import Json.Decode as Decode
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
-        Mdl msg_ ->
-            Material.update Mdl msg_ model
-
         ToggleShoppingListItem name ->
             ( { model | shoppingList = SUpdate.update model.shoppingList name }, Cmd.none )
 

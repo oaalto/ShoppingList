@@ -1,12 +1,10 @@
 module Message exposing (Msg(..))
 
-import Material
 import Ports.LocalStorage as LocalStorage
 
 
 type Msg
-    = Mdl (Material.Msg Msg)
-    | ToggleShoppingListItem String
+    = ToggleShoppingListItem String
     | UpdateItemInput String
     | AddItem
     | EditMode

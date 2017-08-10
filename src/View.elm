@@ -5,8 +5,6 @@ import Model exposing (Model, Page(..))
 import Message exposing (Msg(..))
 import ShoppingList.View as SList exposing (view, renderHeader)
 import ItemInput.View as IView exposing (renderHeader)
-import Material.Layout as Layout
-import Material.Scheme
 
 
 view : Model -> Html Msg
@@ -21,16 +19,10 @@ view model =
 
 viewEditListPage : Model -> Html Msg
 viewEditListPage model =
-    Material.Scheme.top <|
-        Layout.render Mdl
-            model.mdl
-            [ Layout.fixedHeader
-            ]
-            { header = [ IView.renderHeader model.itemInput model.mdl ]
-            , drawer = []
-            , tabs = ( [], [] )
-            , main = [ IView.renderBody model.itemInput model.mdl model.shoppingList.items ]
-            }
+    div []
+        [ IView.renderHeader model
+        , IView.renderBody model
+        ]
 
 
 viewShoppingListPage : Model -> Html Msg
