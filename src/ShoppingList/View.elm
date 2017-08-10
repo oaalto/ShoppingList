@@ -14,10 +14,12 @@ renderHeader model =
     div []
         [ button [ onClick EditMode ]
             [ text "Edit" ]
-        , button [ onClick RemoveBoughtItems ]
-            [ text "Remove Marked" ]
-        , button [ onClick RemoveAllItems ]
-            [ text "Remove All" ]
+        , span [ class "remove-buttons" ]
+            [ button [ onClick RemoveBoughtItems ]
+                [ text "Remove Marked" ]
+            , button [ onClick RemoveAllItems ]
+                [ text "Remove All" ]
+            ]
         ]
 
 
