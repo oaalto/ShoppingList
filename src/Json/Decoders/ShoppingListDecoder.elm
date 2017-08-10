@@ -2,7 +2,7 @@ module Json.Decoders.ShoppingListDecoder exposing (decode)
 
 import Json.Decode
 import Json.Decode.Pipeline as Pipeline exposing (required, optional)
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.ShoppingList exposing (ShoppingListItem)
 
 
 decode : Json.Decode.Decoder ShoppingListItem

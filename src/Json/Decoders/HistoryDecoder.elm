@@ -2,7 +2,7 @@ module Json.Decoders.HistoryDecoder exposing (decode)
 
 import Json.Decode
 import Json.Decode.Pipeline as Pipeline exposing (required, optional)
-import History.HistoryItem exposing (HistoryItem)
+import Model.Edit exposing (HistoryItem)
 
 
 decode : Json.Decode.Decoder HistoryItem

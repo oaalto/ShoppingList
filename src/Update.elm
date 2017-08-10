@@ -1,15 +1,14 @@
 module Update exposing (update)
 
 import Model exposing (Model, Page(..))
-import ItemInput.Model as IModel
-import ShoppingList.Model as SModel exposing (ShoppingListItem)
+import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
+import Model.Edit exposing (EditModel, HistoryItem)
 import Message exposing (Msg(..))
 import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
-import ItemInput.Update as IUpdate exposing (update)
 import Ports.LocalStorage as LocalStorage
 import Json.Decoders.LocalStorageDecoder exposing (decode)
 import Json.Encoders.LocalStorageEncoder exposing (encode)
-import History.HistoryItem exposing (HistoryItem)
+import Page.Edit.Page as EditPage exposing (update)
 import Json.Decode as Decode
 
 
@@ -20,7 +19,7 @@ update msg model =
             ( { model | shoppingList = SUpdate.update model.shoppingList name }, Cmd.none )
 
         UpdateItemInput value ->
-            ( { model | itemInput = IUpdate.update model.itemInput value }, Cmd.none )
+            ( { model | itemInput = EditPage.update model.itemInput value }, Cmd.none )
 
         AddItem ->
             let
@@ -131,17 +130,17 @@ findHistoryItem name history =
         |> List.head
 
 
-loadHistory : IModel.Model -> List HistoryItem -> IModel.Model
+loadHistory : EditModel -> List HistoryItem -> EditModel
 loadHistory itemInput history =
     { itemInput | history = history }
 
 
-loadShoppingList : SModel.Model -> List ShoppingListItem -> SModel.Model
+loadShoppingList : ShoppingListModel -> List ShoppingListItem -> ShoppingListModel
 loadShoppingList shoppingListModel shoppingList =
     { shoppingListModel | items = shoppingList }
 
 
-updateHistory : SModel.Model -> IModel.Model -> IModel.Model
+updateHistory : ShoppingListModel -> EditModel -> EditModel
 updateHistory sModel iModel =
     let
         addedItem =
@@ -155,6 +154,6 @@ updateHistory sModel iModel =
                 iModel
 
 
-addHistoryItem : IModel.Model -> HistoryItem -> IModel.Model
+addHistoryItem : EditModel -> HistoryItem -> EditModel
 addHistoryItem model historyItem =
     { model | history = historyItem :: model.history }

@@ -4,8 +4,8 @@ import Json.Encode
 import Model exposing (Model)
 import Json.Encoders.HistoryEncoder as History exposing (encode)
 import Json.Encoders.ShoppingListEncoder as ShoppingList exposing (encode)
-import History.HistoryItem exposing (HistoryItem)
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.Edit exposing (HistoryItem)
+import Model.ShoppingList exposing (ShoppingListItem)
 
 
 encode : List HistoryItem -> List ShoppingListItem -> Json.Encode.Value

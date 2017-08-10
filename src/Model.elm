@@ -1,9 +1,11 @@
 module Model exposing (Model, Page(..), init)
 
 import Message exposing (Msg(..))
-import ShoppingList.Model as SList exposing (Model, init)
-import ItemInput.Model as IModel exposing (Model, init)
+import ShoppingList.Model as SList exposing (init)
+import Page.Edit.Page as EditPage exposing (init)
 import Ports.LocalStorage as LocalStorage
+import Model.Edit exposing (EditModel)
+import Model.ShoppingList exposing (ShoppingListModel)
 
 
 type Page
@@ -13,13 +15,13 @@ type Page
 
 type alias Model =
     { currentPage : Page
-    , shoppingList : SList.Model
-    , itemInput : IModel.Model
+    , shoppingList : ShoppingListModel
+    , itemInput : EditModel
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model ShoppingListPage SList.init IModel.init
+    ( Model ShoppingListPage SList.init EditPage.init
     , Cmd.batch [ LocalStorage.storageGetItem "ShoppingList" ]
     )

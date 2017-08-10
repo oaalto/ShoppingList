@@ -1,24 +1,24 @@
 module ShoppingList.Update exposing (update, addItem, removeItem, removeAllItems, removeBoughtItems)
 
-import ShoppingList.Model exposing (Model, ShoppingListItem)
+import Model.ShoppingList exposing (ShoppingListModel, ShoppingListItem)
 
 
-update : Model -> String -> Model
+update : ShoppingListModel -> String -> ShoppingListModel
 update model name =
     { model | items = updateShoppingList model name }
 
 
-addItem : Model -> String -> Model
+addItem : ShoppingListModel -> String -> ShoppingListModel
 addItem model value =
     { model | items = (ShoppingListItem value False) :: model.items }
 
 
-removeItem : Model -> String -> Model
+removeItem : ShoppingListModel -> String -> ShoppingListModel
 removeItem model name =
     { model | items = List.filter (\item -> item.name /= name) model.items }
 
 
-updateShoppingList : Model -> String -> List ShoppingListItem
+updateShoppingList : ShoppingListModel -> String -> List ShoppingListItem
 updateShoppingList model name =
     List.map (updateShoppingListItem name) model.items
 
@@ -31,12 +31,12 @@ updateShoppingListItem name item =
         item
 
 
-removeAllItems : Model -> Model
+removeAllItems : ShoppingListModel -> ShoppingListModel
 removeAllItems model =
     { model | items = [] }
 
 
-removeBoughtItems : Model -> Model
+removeBoughtItems : ShoppingListModel -> ShoppingListModel
 removeBoughtItems model =
     { model | items = filterBoughtItems model.items }
 

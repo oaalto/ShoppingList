@@ -1,7 +1,7 @@
 module Json.Encoders.ShoppingListEncoder exposing (encode)
 
 import Json.Encode
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.ShoppingList exposing (ShoppingListItem)
 
 
 encode : ShoppingListItem -> Json.Encode.Value

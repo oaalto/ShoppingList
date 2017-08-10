@@ -1,7 +1,7 @@
 module Json.Encoders.HistoryEncoder exposing (encode)
 
 import Json.Encode
-import History.HistoryItem exposing (HistoryItem)
+import Model.Edit exposing (HistoryItem)
 
 
 encode : HistoryItem -> Json.Encode.Value

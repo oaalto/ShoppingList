@@ -1,17 +1,8 @@
-module ShoppingList.Model exposing (Model, ShoppingListItem, init)
+module ShoppingList.Model exposing (init)
+
+import Model.ShoppingList exposing (ShoppingListModel)
 
 
-type alias ShoppingListItem =
-    { name : String
-    , marked : Bool
-    }
-
-
-type alias Model =
-    { items : List ShoppingListItem
-    }
-
-
-init : Model
+init : ShoppingListModel
 init =
-    Model []
+    ShoppingListModel []

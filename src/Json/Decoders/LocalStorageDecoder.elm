@@ -2,11 +2,10 @@ module Json.Decoders.LocalStorageDecoder exposing (decode, ShoppingList)
 
 import Json.Decode
 import Json.Decode.Pipeline as Pipeline exposing (required, optional)
-import Model exposing (Model)
 import Json.Decoders.HistoryDecoder as History exposing (decode)
 import Json.Decoders.ShoppingListDecoder as ShoppingList exposing (decode)
-import History.HistoryItem exposing (HistoryItem)
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.Edit exposing (HistoryItem)
+import Model.ShoppingList exposing (ShoppingListItem)
 
 
 type alias ShoppingList =

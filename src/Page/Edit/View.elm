@@ -1,17 +1,25 @@
-module ItemInput.View exposing (renderHeader, renderBody)
+module Page.Edit.View exposing (view)
 
-import Model exposing (Model)
+import Model.Edit exposing (EditModel)
 import Html exposing (..)
 import Html.Attributes exposing (class, style, type_, placeholder)
 import Html.Events exposing (onSubmit, onClick, onInput)
 import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
-import History.HistoryItem exposing (HistoryItem)
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.Edit exposing (HistoryItem)
+import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
 
 
-renderHeader : Model -> Html Msg
-renderHeader model =
+view : ShoppingListModel -> EditModel -> Html Msg
+view shoppingListModel editModel =
+    div []
+        [ renderHeader
+        , renderBody shoppingListModel editModel
+        ]
+
+
+renderHeader : Html Msg
+renderHeader =
     div []
         [ inputForm
         , button [ onClick ListMode ]
@@ -19,9 +27,9 @@ renderHeader model =
         ]
 
 
-renderBody : Model -> Html Msg
-renderBody model =
-    ul [] (listItems model)
+renderBody : ShoppingListModel -> EditModel -> Html Msg
+renderBody shoppingListModel editModel =
+    ul [] (listItems shoppingListModel editModel)
 
 
 inputForm : Html Msg
@@ -32,12 +40,12 @@ inputForm =
         ]
 
 
-listItems : Model -> List (Html Msg)
-listItems model =
-    model.itemInput.history
-        |> List.filter (filterItems model.itemInput.value)
+listItems : ShoppingListModel -> EditModel -> List (Html Msg)
+listItems shoppingListModel editModel =
+    editModel.history
+        |> List.filter (filterItems editModel.value)
         |> List.sortWith compareNamesIgnoreCase
-        |> List.map (listItem model.shoppingList.items)
+        |> List.map (listItem shoppingListModel.items)
 
 
 filterItems : String -> HistoryItem -> Bool

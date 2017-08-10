@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Message exposing (Msg(..))
 import Model exposing (Model)
-import ShoppingList.Model exposing (ShoppingListItem)
+import Model.ShoppingList exposing (ShoppingListItem)
 import Utils exposing (compareNamesIgnoreCase)
 
 
