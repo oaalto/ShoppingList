@@ -20,8 +20,7 @@ import Material.Grid exposing (grid, cell, size, align, Device(..), Align(..))
 renderHeader : Model -> Material.Model -> Html Msg
 renderHeader model mdl =
     grid [ Options.css "margin" "0" ]
-        [ cell [ size All 10, size Phone 2 ] [ viewTextfield model mdl ]
-        , cell [ size All 1, align Middle ] [ viewAddButton model mdl ]
+        [ cell [ size All 11, size Phone 3 ] [ viewTextfield model mdl ]
         , cell [ size All 1, align Middle ] [ renderDoneButton mdl ]
         ]
 
@@ -38,21 +37,6 @@ viewTextfield model mdl =
             , Options.onInput UpdateItemInput
             ]
             []
-        ]
-
-
-viewAddButton : Model -> Material.Model -> Html Msg
-viewAddButton model mdl =
-    span []
-        [ Button.render Mdl
-            [ toInt AddButton ]
-            mdl
-            [ Button.raised
-            , Button.ripple
-            , Button.disabled |> Options.when (isAddButtonDisabled model.value model.history)
-            , Options.onClick AddItem
-            ]
-            [ text "Add" ]
         ]
 
 

@@ -3,7 +3,6 @@ module MdlIds exposing (Id(..), toInt)
 
 type Id
     = EditButton
-    | AddButton
     | DoneButton
     | ItemField
     | SettingsButton
@@ -15,14 +14,11 @@ toInt id =
         EditButton ->
             0
 
-        AddButton ->
+        DoneButton ->
             1
 
-        DoneButton ->
+        ItemField ->
             2
 
-        ItemField ->
-            3
-
         SettingsButton ->
-            4
+            3
