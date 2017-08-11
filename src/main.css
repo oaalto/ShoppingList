@@ -2,8 +2,12 @@
   padding-left: 1em;
 }
 
-.settings-button {
-  float: right;
+.input-form {
+  display: inline-block;
+}
+
+.history-table {
+  padding-top: 1em;
 }
 
 .done-button {
@@ -20,6 +24,7 @@
   cursor: pointer;
   overflow: hidden;
   outline: none;
+  vertical-align: middle;
 }
 
 .add-button:disabled {

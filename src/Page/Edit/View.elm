@@ -24,14 +24,14 @@ renderHeader : EditModel -> Html Msg
 renderHeader editModel =
     div []
         [ inputForm editModel
-        , button [ onClick ListMode ]
+        , button [ onClick ListMode, class "done-button" ]
             [ text "Done" ]
         ]
 
 
 renderBody : ShoppingListModel -> EditModel -> Html Msg
 renderBody shoppingListModel editModel =
-    table []
+    table [ class "history-table" ]
         (listItems shoppingListModel editModel)
 
 
@@ -47,7 +47,7 @@ inputForm editModel =
             else
                 Color.green
     in
-        form [ onSubmit AddItem ]
+        form [ onSubmit AddItem, class "input-form" ]
             [ input [ type_ "text", placeholder "Add items here...", onInput UpdateItemInput ]
                 []
             , button [ class "add-button", disabled disabledButton ] [ add_circle buttonColor 16 ]
