@@ -28,7 +28,7 @@ update msg model =
                     ShoppingListPage.addItem model.shoppingList model.itemInput.value
 
                 itemInput =
-                    EditPage.addItem shoppingList.items model.itemInput
+                    EditPage.addItem model.itemInput
             in
                 ( { model
                     | shoppingList = shoppingList
