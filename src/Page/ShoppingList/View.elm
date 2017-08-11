@@ -23,7 +23,7 @@ renderHeader : Html GlobalMessage.Msg
 renderHeader =
     div []
         [ button [ onClick GlobalMessage.EditMode ]
-            [ text "Edit" ]
+            [ text "Add Items" ]
         , span [ class "remove-buttons" ]
             [ button [ onClick (GlobalMessage.ShoppingList RemoveBoughtItems) ]
                 [ text "Remove Marked" ]
