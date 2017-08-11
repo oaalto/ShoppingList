@@ -52,12 +52,15 @@ update msg model =
                     Just item ->
                         let
                             shoppingList =
-                                ShoppingListPage.removeItem model.shoppingList item.name
+                                ShoppingListPage.addItem model.shoppingList item.name
                         in
                             ( { model
                                 | shoppingList = shoppingList
                               }
-                            , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                            , LocalStorage.storageSetItem
+                                ( "ShoppingList"
+                                , encode model.itemInput.history shoppingList.items
+                                )
                             )
 
                     Nothing ->
@@ -77,7 +80,10 @@ update msg model =
                             ( { model
                                 | shoppingList = shoppingList
                               }
-                            , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                            , LocalStorage.storageSetItem
+                                ( "ShoppingList"
+                                , encode model.itemInput.history shoppingList.items
+                                )
                             )
 
                     Nothing ->
