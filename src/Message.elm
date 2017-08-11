@@ -1,11 +1,11 @@
 module Message exposing (Msg(..))
 
 import Ports.LocalStorage as LocalStorage
+import Page.ShoppingList.Message as ShoppingList exposing (ShoppingListMessage)
 
 
 type Msg
-    = ToggleShoppingListItem String
-    | UpdateItemInput String
+    = UpdateItemInput String
     | AddItem
     | EditMode
     | ListMode
@@ -13,5 +13,4 @@ type Msg
     | RemoveHistoryItem String
     | LoadFromStorage
     | ReceiveFromLocalStorage ( LocalStorage.Key, LocalStorage.Value )
-    | RemoveBoughtItems
-    | RemoveAllItems
+    | ShoppingList ShoppingList.ShoppingListMessage

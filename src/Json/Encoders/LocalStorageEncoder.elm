@@ -1,7 +1,6 @@
 module Json.Encoders.LocalStorageEncoder exposing (encode)
 
 import Json.Encode
-import Model exposing (Model)
 import Json.Encoders.HistoryEncoder as History exposing (encode)
 import Json.Encoders.ShoppingListEncoder as ShoppingList exposing (encode)
 import Model.Edit exposing (HistoryItem)

@@ -4,19 +4,20 @@ import Model exposing (Model, Page(..))
 import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
 import Model.Edit exposing (EditModel, HistoryItem)
 import Message exposing (Msg(..))
-import ShoppingList.Update as SUpdate exposing (update, removeBoughtItems, removeAllItems)
 import Ports.LocalStorage as LocalStorage
 import Json.Decoders.LocalStorageDecoder exposing (decode)
 import Json.Encoders.LocalStorageEncoder exposing (encode)
 import Page.Edit.Page as EditPage exposing (update)
+import Page.ShoppingList.Page as ShoppingListPage exposing (update, addItem, removeItem)
+import Page.ShoppingList.Message as ShoppingListMsg exposing (ShoppingListExternalMessage(..), ShoppingListMessage(..))
 import Json.Decode as Decode
 
 
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
-        ToggleShoppingListItem name ->
-            ( { model | shoppingList = SUpdate.update model.shoppingList name }, Cmd.none )
+        ShoppingList shoppingListMsg ->
+            updateShoppingList model shoppingListMsg
 
         UpdateItemInput value ->
             ( { model | itemInput = EditPage.update model.itemInput value }, Cmd.none )
@@ -24,7 +25,7 @@ update msg model =
         AddItem ->
             let
                 shoppingList =
-                    SUpdate.addItem model.shoppingList model.itemInput.value
+                    ShoppingListPage.addItem model.shoppingList model.itemInput.value
 
                 itemInput =
                     updateHistory shoppingList model.itemInput
@@ -51,7 +52,7 @@ update msg model =
                     Just item ->
                         let
                             shoppingList =
-                                SUpdate.removeItem model.shoppingList item.name
+                                ShoppingListPage.removeItem model.shoppingList item.name
                         in
                             ( { model
                                 | shoppingList = shoppingList
@@ -71,7 +72,7 @@ update msg model =
                     Just item ->
                         let
                             shoppingList =
-                                SUpdate.removeItem model.shoppingList item.name
+                                ShoppingListPage.removeItem model.shoppingList item.name
                         in
                             ( { model
                                 | shoppingList = shoppingList
@@ -104,24 +105,6 @@ update msg model =
 
         ReceiveFromLocalStorage ( _, value ) ->
             ( model, Cmd.none )
-
-        RemoveBoughtItems ->
-            let
-                shoppingList =
-                    SUpdate.removeBoughtItems model.shoppingList
-            in
-                ( { model | shoppingList = shoppingList }
-                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
-                )
-
-        RemoveAllItems ->
-            let
-                shoppingList =
-                    SUpdate.removeAllItems model.shoppingList
-            in
-                ( { model | shoppingList = shoppingList }
-                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
-                )
 
 
 findHistoryItem : String -> List HistoryItem -> Maybe HistoryItem
@@ -157,3 +140,19 @@ updateHistory sModel iModel =
 addHistoryItem : EditModel -> HistoryItem -> EditModel
 addHistoryItem model historyItem =
     { model | history = historyItem :: model.history }
+
+
+updateShoppingList : Model -> ShoppingListMessage -> ( Model, Cmd Msg )
+updateShoppingList model shoppingListMsg =
+    let
+        ( shoppingList, externalMsg ) =
+            ShoppingListPage.update shoppingListMsg model.shoppingList
+    in
+        case externalMsg of
+            NoOp ->
+                ( { model | shoppingList = shoppingList }, Cmd.none )
+
+            SaveToStorage ->
+                ( { model | shoppingList = shoppingList }
+                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                )
