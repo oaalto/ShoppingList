@@ -7,6 +7,8 @@ import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
 import Utils exposing (compareNamesIgnoreCase)
 import Page.ShoppingList.Message as Msg exposing (ShoppingListMessage(..))
 import Message as GlobalMessage exposing (Msg(EditMode))
+import Color
+import Material.Icons.Action exposing (check_circle)
 
 
 view : ShoppingListModel -> Html GlobalMessage.Msg
@@ -34,7 +36,7 @@ renderHeader =
 renderList : ShoppingListModel -> Html GlobalMessage.Msg
 renderList model =
     div []
-        [ ul [] (listItems model.items)
+        [ table [ class "shopping-list-table" ] (listItems model.items)
         ]
 
 
@@ -48,15 +50,18 @@ listItems items =
 listItem : ShoppingListItem -> Html GlobalMessage.Msg
 listItem item =
     let
-        textDecoration =
+        ( textDecoration, buttonColor ) =
             if item.marked then
-                "line-through"
+                ( "line-through", Color.green )
             else
-                "initial"
+                ( "initial", Color.grey )
     in
-        li
+        tr
             [ onClick (GlobalMessage.ShoppingList (ToggleShoppingListItem item.name))
             , style [ ( "text-decoration", textDecoration ) ]
             ]
-            [ text item.name
+            [ td []
+                [ check_circle buttonColor 16 ]
+            , td []
+                [ text item.name ]
             ]
