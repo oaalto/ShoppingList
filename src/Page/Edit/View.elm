@@ -56,12 +56,7 @@ inputForm editModel =
 
 isDisabled : EditModel -> Bool
 isDisabled editModel =
-    case ( String.isEmpty editModel.value, isAlreadyInList editModel.value editModel.history ) of
-        ( False, False ) ->
-            False
-
-        ( _, _ ) ->
-            True
+    String.isEmpty editModel.value || isAlreadyInList editModel.value editModel.history
 
 
 isAlreadyInList : String -> List HistoryItem -> Bool
