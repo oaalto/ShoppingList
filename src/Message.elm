@@ -1,19 +1,16 @@
 module Message exposing (Msg(..))
 
-import Material
 import Ports.LocalStorage as LocalStorage
+import Page.ShoppingList.Message as ShoppingList exposing (ShoppingListMessage)
 
 
 type Msg
-    = Mdl (Material.Msg Msg)
-    | ToggleShoppingListItem Int
-    | UpdateItemInput String
+    = UpdateItemInput String
     | AddItem
     | EditMode
     | ListMode
-    | AddHistoryItem Int
-    | RemoveHistoryItem Int
+    | AddHistoryItem String
+    | RemoveHistoryItem String
     | LoadFromStorage
     | ReceiveFromLocalStorage ( LocalStorage.Key, LocalStorage.Value )
-    | RemoveBoughtItems
-    | RemoveAllItems
+    | ShoppingList ShoppingList.ShoppingListMessage

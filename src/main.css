@@ -2,28 +2,35 @@
   padding-left: 1em;
 }
 
-.settings-button {
-  padding-left: 1em;
-  position: absolute;
-  right: 1em;
+.input-form {
+  display: inline-block;
 }
 
-.input-textfield {
-  padding-left: 1em;
-  width: auto;
-}
-
-.add-item-button {
-  padding-left: 1em;
+.history-table {
+  padding-top: 1em;
 }
 
 .done-button {
-  padding-left: 1em;
-  position: absolute;
-  right: 1em;
-  top: 1em;
+  float: right;
 }
 
-.header {
-  padding-left: 1em;
+.remove-buttons {
+  float: right;
+}
+
+.add-button {
+  background: Transparent no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  vertical-align: middle;
+}
+
+.add-button:disabled {
+  background: Transparent no-repeat;
+  border: none;
+  cursor: none;
+  overflow: hidden;
+  outline: none;
 }

@@ -5,7 +5,6 @@ import View exposing (view)
 import Model exposing (Model, init)
 import Update exposing (update)
 import Message exposing (Msg)
-import Material
 import Message exposing (Msg(..))
 import Ports.LocalStorage as LocalStorage
 
@@ -13,8 +12,7 @@ import Ports.LocalStorage as LocalStorage
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ Material.subscriptions Mdl model
-        , LocalStorage.storageGetItemResponse ReceiveFromLocalStorage
+        [ LocalStorage.storageGetItemResponse ReceiveFromLocalStorage
         ]
 
 
