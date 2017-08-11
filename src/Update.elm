@@ -20,21 +20,21 @@ update msg model =
             updateShoppingList model shoppingListMsg
 
         UpdateItemInput value ->
-            ( { model | itemInput = EditPage.update model.itemInput value }, Cmd.none )
+            ( { model | editModel = EditPage.update model.editModel value }, Cmd.none )
 
         AddItem ->
             let
                 shoppingList =
-                    ShoppingListPage.addItem model.shoppingList model.itemInput.value
+                    ShoppingListPage.addItem model.shoppingList model.editModel.value
 
-                itemInput =
-                    EditPage.addItem model.itemInput
+                editModel =
+                    EditPage.addItem model.editModel
             in
                 ( { model
                     | shoppingList = shoppingList
-                    , itemInput = itemInput
+                    , editModel = editModel
                   }
-                , LocalStorage.storageSetItem ( "ShoppingList", encode itemInput.history shoppingList.items )
+                , LocalStorage.storageSetItem ( "ShoppingList", encode editModel.history shoppingList.items )
                 )
 
         EditMode ->
@@ -46,7 +46,7 @@ update msg model =
         AddHistoryItem name ->
             let
                 historyItem =
-                    findHistoryItem name model.itemInput.history
+                    findHistoryItem name model.editModel.history
             in
                 case historyItem of
                     Just item ->
@@ -59,7 +59,7 @@ update msg model =
                               }
                             , LocalStorage.storageSetItem
                                 ( "ShoppingList"
-                                , encode model.itemInput.history shoppingList.items
+                                , encode model.editModel.history shoppingList.items
                                 )
                             )
 
@@ -69,7 +69,7 @@ update msg model =
         RemoveHistoryItem name ->
             let
                 historyItem =
-                    findHistoryItem name model.itemInput.history
+                    findHistoryItem name model.editModel.history
             in
                 case historyItem of
                     Just item ->
@@ -82,7 +82,7 @@ update msg model =
                               }
                             , LocalStorage.storageSetItem
                                 ( "ShoppingList"
-                                , encode model.itemInput.history shoppingList.items
+                                , encode model.editModel.history shoppingList.items
                                 )
                             )
 
@@ -103,7 +103,7 @@ update msg model =
 
                     Ok localStorageJson ->
                         ( { model
-                            | itemInput = loadHistory model.itemInput localStorageJson.history
+                            | editModel = loadHistory model.editModel localStorageJson.history
                             , shoppingList = loadShoppingList model.shoppingList localStorageJson.shoppingList
                           }
                         , Cmd.none
@@ -120,8 +120,8 @@ findHistoryItem name history =
 
 
 loadHistory : EditModel -> List HistoryItem -> EditModel
-loadHistory itemInput history =
-    { itemInput | history = history }
+loadHistory editModel history =
+    { editModel | history = history }
 
 
 loadShoppingList : ShoppingListModel -> List ShoppingListItem -> ShoppingListModel
@@ -141,5 +141,5 @@ updateShoppingList model shoppingListMsg =
 
             SaveToStorage ->
                 ( { model | shoppingList = shoppingList }
-                , LocalStorage.storageSetItem ( "ShoppingList", encode model.itemInput.history shoppingList.items )
+                , LocalStorage.storageSetItem ( "ShoppingList", encode model.editModel.history shoppingList.items )
                 )

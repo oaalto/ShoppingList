@@ -14,4 +14,4 @@ view model =
             ShoppingListPage.view model.shoppingList
 
         EditListPage ->
-            EditPage.view model.shoppingList model.itemInput
+            EditPage.view model.shoppingList model.editModel
