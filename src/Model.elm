@@ -15,7 +15,7 @@ type Page
 
 type alias Model =
     { currentPage : Page
-    , shoppingList : ShoppingListModel
+    , shoppingListModel : ShoppingListModel
     , editModel : EditModel
     }
 
