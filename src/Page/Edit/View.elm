@@ -8,7 +8,7 @@ import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
 import Model.Edit exposing (HistoryItem)
 import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
-import Material.Icons.Content exposing (add_circle)
+import Material.Icons.Content exposing (add_circle, remove_circle)
 import Color
 
 
@@ -59,24 +59,18 @@ filterItems value item =
 listItem : List ShoppingListItem -> HistoryItem -> Html Msg
 listItem shoppingListItems item =
     let
-        textColor =
+        ( textColor, buttonColor, buttonFunc ) =
             if isSelected item shoppingListItems then
-                "gray"
+                ( "gray", Color.red, remove_circle )
             else
-                "black"
-
-        buttonColor =
-            if isSelected item shoppingListItems then
-                Color.green
-            else
-                Color.black
+                ( "black", Color.green, add_circle )
     in
         tr
             [ onClick (historyItemMsg item shoppingListItems)
             , style [ ( "color", textColor ) ]
             ]
             [ td []
-                [ add_circle buttonColor 16 ]
+                [ buttonFunc buttonColor 16 ]
             , td []
                 [ text item.name ]
             ]
