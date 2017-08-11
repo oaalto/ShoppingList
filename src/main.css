@@ -13,3 +13,19 @@
 .remove-buttons {
   float: right;
 }
+
+.add-button {
+  background: Transparent no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+.add-button:disabled {
+  background: Transparent no-repeat;
+  border: none;
+  cursor: none;
+  overflow: hidden;
+  outline: none;
+}

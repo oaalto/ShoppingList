@@ -2,7 +2,7 @@ module Page.Edit.View exposing (view)
 
 import Model.Edit exposing (EditModel)
 import Html exposing (..)
-import Html.Attributes exposing (class, style, type_, placeholder, attribute)
+import Html.Attributes exposing (class, style, type_, placeholder, attribute, disabled)
 import Html.Events exposing (onSubmit, onClick, onInput)
 import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
@@ -15,15 +15,15 @@ import Color
 view : ShoppingListModel -> EditModel -> Html Msg
 view shoppingListModel editModel =
     div []
-        [ renderHeader
+        [ renderHeader editModel
         , renderBody shoppingListModel editModel
         ]
 
 
-renderHeader : Html Msg
-renderHeader =
+renderHeader : EditModel -> Html Msg
+renderHeader editModel =
     div []
-        [ inputForm
+        [ inputForm editModel
         , button [ onClick ListMode ]
             [ text "Done" ]
         ]
@@ -35,12 +35,38 @@ renderBody shoppingListModel editModel =
         (listItems shoppingListModel editModel)
 
 
-inputForm : Html Msg
-inputForm =
-    form [ onSubmit AddItem ]
-        [ input [ type_ "text", placeholder "Add items here...", onInput UpdateItemInput ]
-            []
-        ]
+inputForm : EditModel -> Html Msg
+inputForm editModel =
+    let
+        disabledButton =
+            isDisabled editModel
+
+        buttonColor =
+            if disabledButton then
+                Color.grey
+            else
+                Color.green
+    in
+        form [ onSubmit AddItem ]
+            [ input [ type_ "text", placeholder "Add items here...", onInput UpdateItemInput ]
+                []
+            , button [ class "add-button", disabled disabledButton ] [ add_circle buttonColor 16 ]
+            ]
+
+
+isDisabled : EditModel -> Bool
+isDisabled editModel =
+    case ( String.isEmpty editModel.value, isAlreadyInList editModel.value editModel.history ) of
+        ( False, False ) ->
+            False
+
+        ( _, _ ) ->
+            True
+
+
+isAlreadyInList : String -> List HistoryItem -> Bool
+isAlreadyInList value historyItems =
+    List.any (\item -> item.name == value) historyItems
 
 
 listItems : ShoppingListModel -> EditModel -> List (Html Msg)
