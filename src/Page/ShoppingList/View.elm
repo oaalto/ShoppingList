@@ -25,7 +25,7 @@ renderHeader =
         , span [ class "remove-buttons" ]
             [ button [ onClick (GlobalMessage.ShoppingList RemoveBoughtItems) ]
                 [ text "Remove Marked" ]
-            , button [ onClick (GlobalMessage.ShoppingList RemoveAllItems) ]
+            , button [ onClick (GlobalMessage.ShoppingList RemoveAllItems), class "remove-all-button" ]
                 [ text "Remove All" ]
             ]
         ]
