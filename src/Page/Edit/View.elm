@@ -2,12 +2,14 @@ module Page.Edit.View exposing (view)
 
 import Model.Edit exposing (EditModel)
 import Html exposing (..)
-import Html.Attributes exposing (class, style, type_, placeholder)
+import Html.Attributes exposing (class, style, type_, placeholder, attribute)
 import Html.Events exposing (onSubmit, onClick, onInput)
 import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
 import Model.Edit exposing (HistoryItem)
 import Model.ShoppingList exposing (ShoppingListItem, ShoppingListModel)
+import Material.Icons.Content exposing (add_circle)
+import Color
 
 
 view : ShoppingListModel -> EditModel -> Html Msg
@@ -29,7 +31,8 @@ renderHeader =
 
 renderBody : ShoppingListModel -> EditModel -> Html Msg
 renderBody shoppingListModel editModel =
-    ul [] (listItems shoppingListModel editModel)
+    table []
+        (listItems shoppingListModel editModel)
 
 
 inputForm : Html Msg
@@ -61,12 +64,21 @@ listItem shoppingListItems item =
                 "gray"
             else
                 "black"
+
+        buttonColor =
+            if isSelected item shoppingListItems then
+                Color.green
+            else
+                Color.black
     in
-        li
+        tr
             [ onClick (historyItemMsg item shoppingListItems)
             , style [ ( "color", textColor ) ]
             ]
-            [ text item.name
+            [ td []
+                [ add_circle buttonColor 16 ]
+            , td []
+                [ text item.name ]
             ]
 
 
