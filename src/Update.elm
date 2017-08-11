@@ -7,7 +7,7 @@ import Message exposing (Msg(..))
 import Ports.LocalStorage as LocalStorage
 import Json.Decoders.LocalStorageDecoder exposing (decode)
 import Json.Encoders.LocalStorageEncoder exposing (encode)
-import Page.Edit.Page as EditPage exposing (update)
+import Page.Edit.Page as EditPage exposing (update, addItem)
 import Page.ShoppingList.Page as ShoppingListPage exposing (update, addItem, removeItem)
 import Page.ShoppingList.Message as ShoppingListMsg exposing (ShoppingListExternalMessage(..), ShoppingListMessage(..))
 import Json.Decode as Decode
@@ -28,11 +28,11 @@ update msg model =
                     ShoppingListPage.addItem model.shoppingList model.itemInput.value
 
                 itemInput =
-                    updateHistory shoppingList model.itemInput
+                    EditPage.addItem shoppingList.items model.itemInput
             in
                 ( { model
                     | shoppingList = shoppingList
-                    , itemInput = { itemInput | value = "" }
+                    , itemInput = itemInput
                   }
                 , LocalStorage.storageSetItem ( "ShoppingList", encode itemInput.history shoppingList.items )
                 )
@@ -127,25 +127,6 @@ loadHistory itemInput history =
 loadShoppingList : ShoppingListModel -> List ShoppingListItem -> ShoppingListModel
 loadShoppingList shoppingListModel shoppingList =
     { shoppingListModel | items = shoppingList }
-
-
-updateHistory : ShoppingListModel -> EditModel -> EditModel
-updateHistory sModel iModel =
-    let
-        addedItem =
-            List.head sModel.items
-    in
-        case addedItem of
-            Just item ->
-                addHistoryItem iModel (HistoryItem iModel.value)
-
-            Nothing ->
-                iModel
-
-
-addHistoryItem : EditModel -> HistoryItem -> EditModel
-addHistoryItem model historyItem =
-    { model | history = historyItem :: model.history }
 
 
 updateShoppingList : Model -> ShoppingListMessage -> ( Model, Cmd Msg )

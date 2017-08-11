@@ -2,7 +2,7 @@ module Page.Edit.View exposing (view)
 
 import Model.Edit exposing (EditModel)
 import Html exposing (..)
-import Html.Attributes exposing (class, style, type_, placeholder, attribute, disabled)
+import Html.Attributes exposing (class, style, type_, placeholder, attribute, disabled, value)
 import Html.Events exposing (onSubmit, onClick, onInput)
 import Message exposing (Msg(..))
 import Utils exposing (compareNamesIgnoreCase)
@@ -48,7 +48,13 @@ inputForm editModel =
                 Color.green
     in
         form [ onSubmit AddItem, class "input-form" ]
-            [ input [ type_ "text", placeholder "Add items here...", onInput UpdateItemInput ]
+            [ input
+                [ type_ "text"
+                , placeholder "Add items here..."
+                , onInput UpdateItemInput
+                , class "item-input"
+                , value editModel.value
+                ]
                 []
             , button [ class "add-button", disabled disabledButton ] [ add_circle buttonColor 16 ]
             ]

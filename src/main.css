@@ -32,6 +32,10 @@ button:hover {
   display: inline-block;
 }
 
+.item-input {
+  line-height: 20px;
+}
+
 .history-table {
   padding-top: 1em;
 }
