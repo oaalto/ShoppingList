@@ -17,7 +17,7 @@ update : ShoppingListMessage -> ShoppingListModel -> ( ShoppingListModel, Shoppi
 update msg model =
     case msg of
         ToggleShoppingListItem name ->
-            ( Update.toggleItem model name, NoOp )
+            ( Update.toggleItem model name, SaveToStorage )
 
         RemoveBoughtItems ->
             let

@@ -1,8 +1,18 @@
-module Page.Edit.Update exposing (update)
+module Page.Edit.Update exposing (updateInputValue, updateHistory)
 
-import Model.Edit exposing (EditModel)
+import Model.Edit exposing (EditModel, HistoryItem)
 
 
-update : EditModel -> String -> EditModel
-update model value =
+updateInputValue : EditModel -> String -> EditModel
+updateInputValue model value =
     { model | value = value }
+
+
+updateHistory : List HistoryItem -> String -> List HistoryItem
+updateHistory history value =
+    addHistoryItem history (HistoryItem value)
+
+
+addHistoryItem : List HistoryItem -> HistoryItem -> List HistoryItem
+addHistoryItem history historyItem =
+    historyItem :: history

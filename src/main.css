@@ -1,3 +1,29 @@
+button {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+  color: #ffffff;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  border: none;
+}
+
+button:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
 .edit-button {
   padding-left: 1em;
 }
@@ -6,7 +32,15 @@
   display: inline-block;
 }
 
+.item-input {
+  line-height: 20px;
+}
+
 .history-table {
+  padding-top: 1em;
+}
+
+.shopping-list-table {
   padding-top: 1em;
 }
 
@@ -16,6 +50,10 @@
 
 .remove-buttons {
   float: right;
+}
+
+.remove-all-button {
+  margin-left: 0.5em;
 }
 
 .add-button {

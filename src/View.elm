@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     case model.currentPage of
         ShoppingListPage ->
-            ShoppingListPage.view model.shoppingList
+            ShoppingListPage.view model.shoppingListModel
 
         EditListPage ->
-            EditPage.view model.shoppingList model.itemInput
+            EditPage.view model.shoppingListModel model.editModel
