@@ -49,7 +49,7 @@ inputForm editModel =
     in
         form [ onSubmit AddItem, class "input-form" ]
             [ input
-                [ type_ "text"
+                [ type_ "search"
                 , placeholder "Add items here..."
                 , onInput UpdateItemInput
                 , class "item-input"
